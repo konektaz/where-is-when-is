@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
 
     'olwidget',
+    'south',
 
     'core',
     'world',
