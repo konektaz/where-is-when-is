@@ -7,7 +7,7 @@ from world.models import WorldBorder
 
 
 def home(request):
-    worldborders = WorldBorder.objects.all()#[1:15]
+    worldborders = WorldBorder.objects.all()
 
     this_map = InfoMap([(wb.poly_simplify, wb.name_1) for wb in worldborders])
 
