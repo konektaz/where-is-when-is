@@ -1,1 +1,3 @@
 /konekta/local_settings.py
+
+*.pyc
