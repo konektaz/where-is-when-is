@@ -124,6 +124,7 @@ INSTALLED_APPS = (
 
     'olwidget',
 
+    'core',
     'world',
 )
 
