@@ -26,3 +26,7 @@ class WorldBorder(models.Model):
 
     def __unicode__(self):
         return self.name_1
+
+    @property
+    def poly_simplify(self):
+        return self.mpoly.simplify(tolerance=0.001, preserve_topology=True)
