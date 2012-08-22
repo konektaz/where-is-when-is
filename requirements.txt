@@ -1,0 +1,4 @@
+Django==1.4.1
+South==0.7.6
+django-olwidget==0.50
+psycopg2==2.4.5
