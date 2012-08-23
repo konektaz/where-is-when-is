@@ -1,20 +1,19 @@
 Installation
 ============
 
-First install requirements
+First, clone the repository like this:
+
+```sh
+git clone https://github.com/konekta/where-is-when-is.git whereiswhenis && \
+cd whereiswhenis
+```
+Then install requirements
 
 ```sh
 pip install -r requirements.txt
 ```
 
 Make sure you have postgis installed. Use version 1.5.3. Version 2 doesn't like Django. Once you install it, make sure you enable it on your database.
-
-Clone the repository like this:
-
-```sh
-git clone https://github.com/konekta/where-is-when-is.git whereiswhenis && \
-cd whereiswhenis
-```
 
 Copy settings file for your local machine like this:
 
