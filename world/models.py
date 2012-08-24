@@ -50,3 +50,37 @@ class WorldBorder(models.Model):
     @property
     def poly_simplify(self):
         return self.mpoly.simplify(tolerance=0.001, preserve_topology=True)
+
+
+class LocationType(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Location(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    type = models.ForeignKey(LocationType)
+    zone = models.ForeignKey(Zone)
+
+    point = models.PointField()
+
+    description = models.TextField(blank=True, null=True)
+
+    url = models.URLField(max_length=255, verify_exists=True, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+
+    street_address = models.CharField(max_length=255, blank=True, null=True)
+    locality = models.CharField(max_length=255, blank=True, null=True)
+    region = models.CharField(max_length=255, blank=True, null=True)
+    postal_code = models.CharField(max_length=20, blank=True, null=True)
+    country = models.CharField(max_length=50, blank=True, null=True)
+
+    phone = models.CharField(max_length=20, blank=True, null=True)
+
+    objects = models.GeoManager()
+
+    def __unicode__(self):
+        return self.name
