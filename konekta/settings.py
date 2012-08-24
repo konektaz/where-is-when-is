@@ -158,6 +158,8 @@ LOGGING = {
     }
 }
 
+OL_API = 'http://openlayers.org/dev/OpenLayers.js'
+
 try:
     from local_settings import *
 except ImportError:

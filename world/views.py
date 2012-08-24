@@ -11,7 +11,8 @@ def zone_detail(request, slug):
 
     worldborders = zone.worldborder_set.all()
 
-    this_map = InfoMap([(wb.poly_simplify, wb.name_1) for wb in worldborders])
+    this_map = InfoMap([(wb.poly_simplify, wb.name_1) for wb in worldborders],
+                       {'layers': ['google.streets', 'google.satellite', 'google.hybrid']})
 
     return render(request, 'world/zone_detail.html', {'map': this_map})
     pass
