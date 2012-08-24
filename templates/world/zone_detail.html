@@ -4,9 +4,13 @@
 {{ map.media }}
 {% endblock %}
 
+{% block breadcrumb %}
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">{{ zone }}</li>
+{% endblock %}
+
 {% block content %}
+<h1>{{ zone }}</h1>
 
 {{ map }}
-
-
 {% endblock %}
