@@ -3,6 +3,13 @@
 from django.contrib.gis.db import models
 
 
+class Zone(models.Model):
+    name = models.CharField('name', max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+
 class WorldBorder(models.Model):
     id_0 = models.IntegerField()
     iso = models.CharField('ISO', max_length=3)
@@ -21,8 +28,13 @@ class WorldBorder(models.Model):
     shape_leng = models.FloatField()
     shape_area = models.FloatField()
 
+    zone = models.ForeignKey(Zone, null=True, blank=True)
+
     mpoly = models.MultiPolygonField()
     objects = models.GeoManager()
+
+    class Meta:
+        ordering = ('name_1',)
 
     def __unicode__(self):
         return self.name_1
