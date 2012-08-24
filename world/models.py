@@ -5,9 +5,17 @@ from django.contrib.gis.db import models
 
 class Zone(models.Model):
     name = models.CharField('name', max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, null=True)
+
+    class Meta:
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('world_zone_detail', [self.slug])
 
 
 class WorldBorder(models.Model):
