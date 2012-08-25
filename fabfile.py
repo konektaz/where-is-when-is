@@ -25,7 +25,8 @@ def _install_dependencies():
     """Use pip to install required packages."""
     # PyPI mirror list is at http://pypi.python.org/mirrors
     require('hosts', provided_by=[live])
-    run('./%(path)s/env/bin/pip install --timeout=60 --log %(path)s/log/pip.log '
+    run('./%(path)s/env/bin/pip install --timeout=60 '
+        '--log %(path)s/log/pip.log '
         '--download-cache PIP-DOWNLOAD-CACHE -M '
         '--mirrors b.pypi.python.org '
         '--mirrors c.pypi.python.org '
@@ -42,7 +43,6 @@ def _pull():
         run('git pull origin master')
 
 
-
 def _upload_static_files():
     """Tell Django to (locally) collect all needed static files and upload
     and unpack them."""
@@ -51,7 +51,9 @@ def _upload_static_files():
     #local("cd fluidinfo && python manage.py compress --force")
     local('tar cfj static.tar.bz2 static' % env)
     put('static.tar.bz2', '%(path)s/repo' % env)
-    run('cd %(path)s/repo && tar xfj static.tar.bz2 && rm -f static.tar.bz2' % env)
+    run('cd %(path)s/repo && '
+        'tar xfj static.tar.bz2 && '
+        'rm -f static.tar.bz2' % env)
     local('rm -rf static static.tar.bz2')
 
 
@@ -74,7 +76,8 @@ def bootstrap():
     if not exists(env.path + '/env'):
         run('virtualenv %s/env' % env.path)
     run('%s/env/bin/pip install -U pip' % env.path)
-    run('%s/env/bin/pip install -U gunicorn gevent greenlet setproctitle' % env.path)
+    run('%s/env/bin/pip install -U gunicorn gevent greenlet setproctitle'
+        % env.path)
 
     run('git clone %s %s/repo' % (env.repo, env.path))
 

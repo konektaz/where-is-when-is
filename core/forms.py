@@ -14,5 +14,7 @@ class FeedbackForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
+        self.helper.add_input(Submit('submit', 'Submit',
+                                     css_class='btn-primary'))
+
         super(FeedbackForm, self).__init__(*args, **kwargs)
