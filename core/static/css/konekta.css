@@ -2,6 +2,22 @@ body {
 	padding-top: 60px;
 }
 
+#feedbackbtn {
+	height: 110px;
+	width: 32px;
+	left: 0;
+	top: 40%;
+	position: fixed;
+	background: url(../images/feedback.gif) no-repeat;
+}
+
+#feedbackbtn a span {
+	display: block;
+	height: 110px;
+	width: 32px;
+	text-indent: -9999px;
+}
+
 .footer {
 	padding: 20px 0;
 	margin-top: 70px;

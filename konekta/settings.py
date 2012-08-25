@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.gis',
 
+    'crispy_forms',
     'olwidget',
     'south',
 

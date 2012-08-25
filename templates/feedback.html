@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumb %}
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li class="active">Feedback</li>
+{% endblock %}
+
+{% block content %}
+
+{% crispy form %}
+
+{% endblock %}
