@@ -1,7 +1,8 @@
 /konekta/local_settings.py
+/env
 
 *.pyc
+.*.swp
 
 .idea
 *.iml
-
