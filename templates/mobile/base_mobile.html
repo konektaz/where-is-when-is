@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Konekta - India</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+	<link href="/site_media/static/olwidget/css/olwidget.css" type="text/css" media="all" rel="stylesheet" />
+	<script type="text/javascript" src="http://openlayers.org/api/2.8/OpenLayers.js"></script>
+	<script type="text/javascript" src="/site_media/static/olwidget/js/olwidget.js"></script>
+	<script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAABH87p-yQOJj-sh06NusQiRR5Or-DwHcPIBRLek7T6o1hMDyqXxTeuXzcsNI6cTpppXUsQmlAdULBWw"></script>
+	<style>
+	.ui-btn-block {
+		width: 100px !important;
+		margin-left: 515px !important;
+		height: 50px !important;
+	}
+	input.ui-input-text {
+		width: 97% !important;
+	}
+
+	input.ui-input-text, textarea.ui-input-text {
+		width: 97% !important;
+	}
+	</style>
+	<script>
+	var x=document.getElementById("demo");
+	function getLocation()
+	{
+		if (navigator.geolocation)
+		{
+			navigator.geolocation.getCurrentPosition(showPosition);
+		}
+		else
+		{
+			x.innerHTML="Geolocation is not supported by this browser.";
+		}
+	}
+	function showPosition(position)
+	{
+		url = "/mobile-latt/?lat="+ position.coords.latitude +"&lng=" + position.coords.longitude;
+
+		window.location=url;
+	}
+	</script>
+</head>
+
+
+<body>
+
+<!-- Home page -->
+<div data-role="page" id="home">
+	<div data-role="header" data-position="fixed">
+		<h1>Konekta</h1>
+	</div>
+	<div data-role="content">
+		<h3>Welcome message content goes here.</h3>
+		<p>This is how it works goes here.</p>
+		<p id="demo">Click the button to get your coordinates:</p>
+		<p><a href="#list" data-role="button" onclick="getLocation()">Find Nearby...</a></p>
+		<h5 style="text-align:center;">OR </h5>
+		<p><a href="#search" data-role="button">Search Nearby...</a></p>
+	</div>
+</div>
+
+
+<!-- Search Page -->
+<div data-role="page" id="search" data-position="fixed">
+	<div data-role="header"> <a href="#home" data-icon="back">Back</a>
+		<h1>Search</h1>
+	</div>
+	<div data-role="content">
+		<form method="get" action="/mobile-search_result/">
+			<input type="text" name="search_keyword" value='' onkeyup="showResult(this.value)" class="field1"  />
+			<input type="image" src="/site_media/static/images/go_btn.gif" alt="Go" />
+		</form>
+	</div>
+	<div style="float:left; margin-left:265px;">{{olmap}}</div>
+	<div data-role="footer" data-position="fixed">
+		<h4>Copyright © 2012</h4>
+	</div>
+</div>
+
+
+</body>
+</html>

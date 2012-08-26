@@ -13,5 +13,7 @@ urlpatterns = patterns(
 
     url(r'^feedback/$', 'core.views.feedback', name='feedback'),
 
+    url(r'^mobile/', include('mobile.urls')),
+
     url(r'', include('world.urls')),
 )
