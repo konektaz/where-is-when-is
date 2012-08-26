@@ -9,6 +9,10 @@ def home(request):
     return render(request, 'home.html')
 
 
+def about(request):
+    return render(request, 'about.html')
+
+
 def feedback(request):
 
     form = FeedbackForm(request.POST or None)
