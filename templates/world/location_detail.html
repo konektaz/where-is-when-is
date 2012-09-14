@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
+{% block breadcrumb %}
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  <li><a href="{{ location.zone.get_absolute_url }}">{{ location.zone }}</a> <span class="divider">/</span></li>
+  <li class="active">{{ location.name }}</li>
+{% endblock %}
+
 {% block content %}
-<h1>{{ location }}</h1>
+<h1>{{ location.name }}</h1>
 
 <p>{{ location.description }}</p>
 
