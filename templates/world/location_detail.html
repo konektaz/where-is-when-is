@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ location }}</h1>
+
+<p>{{ location.description }}</p>
+
+<div class="vcard">
+  <div class="fn org">{{ location.name }}</div>
+  <div class="tel"><span class="type">work</span>: <span class="value">{{ location.phone }}</span></div>
+  <div class="url">{{ location.url }}</div>
+  <div class="email">{{ location.email }}</div>
+  <div class="twitter">{{ location.twitter }}</div>
+
+  <div class="adr">
+    <div class="street-address">{{ location.street_address }}</div>
+    <div class="locality">{{ location.locality }}</div>
+    <div class="region">{{ location.region }}</div>
+    <div class="postal-code">{{ location.postal_code }}</div>
+    <div class="country-name">{{ location.country }}</div>
+  </div>
+</div>
+
+{% endblock %}

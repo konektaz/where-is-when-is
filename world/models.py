@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.gis.db import models
+from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse
 
 
 class Zone(models.Model):
@@ -86,3 +88,13 @@ class Location(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('world_location_detail', kwargs={'slug': self.slug})
+    
+    @property
+    def map_html(self):
+        return render_to_string('world/map_box.html', {
+                'name': self.name,
+                'url': self.get_absolute_url,
+                })
