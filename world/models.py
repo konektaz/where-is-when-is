@@ -71,6 +71,7 @@ class Location(models.Model):
 
     url = models.URLField(max_length=255, verify_exists=True, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+    twitter = models.CharField(max_length=15, blank=True, null=True)
 
     street_address = models.CharField(max_length=255, blank=True, null=True)
     locality = models.CharField(max_length=255, blank=True, null=True)
@@ -79,6 +80,7 @@ class Location(models.Model):
     country = models.CharField(max_length=50, blank=True, null=True)
 
     phone = models.CharField(max_length=20, blank=True, null=True)
+    mobile_phone = models.CharField(max_length=20, blank=True, null=True)
 
     objects = models.GeoManager()
 
