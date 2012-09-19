@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'olwidget',
     'south',
+    'tastypie',
 
     'core',
     'world',
