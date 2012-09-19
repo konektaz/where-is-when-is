@@ -3,3 +3,4 @@ South==0.7.6
 django-crispy-forms==1.1.4
 django-olwidget==0.50
 psycopg2==2.4.5
+django-tastypie==0.9.11
