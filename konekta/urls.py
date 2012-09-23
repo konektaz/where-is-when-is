@@ -21,6 +21,8 @@ urlpatterns = patterns(
 
     url(r'^mobile/', include('mobile.urls')),
 
+    (r'^accounts/', include('allauth.urls')),
+
     (r'^api/', include(location_resource.urls)),
 
     url(r'', include('world.urls')),
