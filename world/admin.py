@@ -9,12 +9,12 @@ class ZoneAdmin(admin.ModelAdmin):
     pass
 
 
-class LocationAdmin(admin.GeoModelAdmin):
+class LocationAdmin(admin.OSMGeoAdmin):
     list_filter = ('zone',)
     list_display = ('name', 'zone')
 
 
-class WorldBorderAdmin(admin.GeoModelAdmin):
+class WorldBorderAdmin(admin.OSMGeoAdmin):
     list_filter = ('zone',)
     list_display = ('name_1', 'zone')
     list_editable = ('zone',)
