@@ -65,7 +65,7 @@ class LocationType(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     type = models.ForeignKey(LocationType)
     zone = models.ForeignKey(Zone)
 
