@@ -1,4 +1,5 @@
 {% load world_tags %}
+{% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,8 +47,17 @@
         <a class="brand" href="/">Konekta</a>
         <div class="nav-collapse collapse">
           <ul class="nav">
-            <li><a href="{% url about %}">About</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
             {% zones_menu %}
+
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+              <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+            {% else %}
+              <li><a href="{% url 'account_login' %}">Sign In</a></li>
+              <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+            {% endif %}
+
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -66,7 +76,7 @@
   </div> <!-- /container -->
 
   <div id="feedbackbtn">
-    <a href="{% url feedback %}"><span>Feedback</span></a>
+    <a href="{% url 'feedback' %}"><span>Feedback</span></a>
   </div>
 
   <footer class="footer">
