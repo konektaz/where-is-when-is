@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
@@ -91,7 +92,7 @@ class Location(models.Model):
     tags = TaggableManager(blank=True)
 
     created_by = models.ForeignKey(User, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(editable=False)
 
     validated_by = models.ManyToManyField(User, related_name='validated_locations')
 
@@ -102,6 +103,12 @@ class Location(models.Model):
 
     def get_absolute_url(self):
         return reverse('world_location_detail', kwargs={'slug': self.slug})
+
+    def save(self):
+        if not self.id:
+            self.created_at = datetime.datetime.today()
+
+        super(Location, self).save()
 
     @property
     def map_html(self):
