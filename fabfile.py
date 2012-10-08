@@ -42,6 +42,11 @@ def _pull():
     with cd('%(path)s/repo' % env):
         run('git pull origin master')
 
+def _migrate():
+    """Do the DB migrations"""
+    require('hosts', provided_by=[live])
+    run('./%(path)s/env/bin/python ./%(path)s/repo/manage.py migrate' % env)
+
 
 def _upload_static_files():
     """Tell Django to (locally) collect all needed static files and upload
@@ -61,6 +66,7 @@ def _deploy():
     """Deploy the website."""
     _pull()
     _install_dependencies()
+    _migrate()
     _upload_static_files()
 
 
