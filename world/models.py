@@ -4,6 +4,7 @@ from django.contrib.gis.db import models
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 
+from autoslug import AutoSlugField
 from taggit.managers import TaggableManager
 
 
@@ -65,7 +66,7 @@ class LocationType(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = AutoSlugField(populate_from='name', max_length=255, unique=True)
     type = models.ForeignKey(LocationType)
     zone = models.ForeignKey(Zone)
 

@@ -12,7 +12,6 @@ class ZoneAdmin(admin.ModelAdmin):
 class LocationAdmin(admin.OSMGeoAdmin):
     list_filter = ('zone',)
     list_display = ('name', 'zone')
-    prepopulated_fields = {'slug': ('name',)}
 
 
 class WorldBorderAdmin(admin.OSMGeoAdmin):

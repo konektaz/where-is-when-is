@@ -11,3 +11,4 @@ psycopg2==2.4.5
 python-openid==2.2.5
 django-floppyforms==1.0
 django-braces==0.1.7
+django-autoslug==1.6.1
