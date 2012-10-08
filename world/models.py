@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.gis.db import models
+from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 
@@ -88,6 +89,8 @@ class Location(models.Model):
     mobile_phone = models.CharField(max_length=20, blank=True, null=True)
 
     tags = TaggableManager(blank=True)
+
+    created_by = models.ForeignKey(User, blank=True, null=True)
 
     objects = models.GeoManager()
 

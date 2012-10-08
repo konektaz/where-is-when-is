@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from braces.forms import UserKwargModelFormMixin
 import floppyforms as forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -8,12 +9,12 @@ from .models import Location
 from .widgets import PointWidget
 
 
-class LocationAddForm(forms.ModelForm):
+class LocationAddForm(UserKwargModelFormMixin, forms.ModelForm):
     point = forms.gis.PointField(widget=PointWidget)
 
     class Meta:
         model = Location
-        exclude = ('zone',)
+        exclude = ('created_by', 'zone',)
 
     def __init__(self, *args, **kwargs):
         self.zone = kwargs.pop('zone', None)
@@ -22,9 +23,9 @@ class LocationAddForm(forms.ModelForm):
         super(LocationAddForm, self).__init__(*args, **kwargs)
 
     def save(self, force_insert=False, force_update=False, commit=True):
-        print self.zone
         location = super(LocationAddForm, self).save(commit=False)
         location.zone = self.zone
+        location.created_by = self.user
 
         if commit:
             location.save()
