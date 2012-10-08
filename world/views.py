@@ -5,7 +5,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import CreateView, View
 from django.shortcuts import render, get_object_or_404
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
-from olwidget.widgets import InfoLayer, Map
+from olwidget.widgets import InfoLayer, Map, InfoMap
 
 from forms import LocationAddForm
 from models import Zone, Location
@@ -29,12 +29,19 @@ def zone_detail(request, slug):
         'map': this_map,
     })
 
+
 def location_detail(request, slug):
     location = get_object_or_404(Location, slug=slug)
 
+    this_map = InfoMap([(location.point, location.map_html)],
+                   {'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
+                    'map_div_style': {'width': '570px', 'height': '400px'}})
+
+
     return render(request, 'world/location_detail.html', {
-            'location': location,
-            })
+        'location': location,
+        'map': this_map,
+    })
 
 class LocationAddView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
     model = Location

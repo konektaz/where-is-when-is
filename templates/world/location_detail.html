@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load url from future %}
 
+{% block extra-head %}
+{{ map.media }}
+{% endblock %}
+
 {% block breadcrumb %}
   <li><a href="/">Home</a> <span class="divider">/</span></li>
   <li><a href="{{ location.zone.get_absolute_url }}">{{ location.zone }}</a> <span class="divider">/</span></li>
@@ -8,36 +12,47 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ location.name }}</h1>
 
-<p>{{ location.description }}</p>
+  <div class="row">
+    <div class="span3">
+      <h1>{{ location.name }}</h1>
 
-<div class="vcard">
-  <div class="fn org">{{ location.name }}</div>
-  <div class="tel"><span class="type">work</span>: <a href="tel:{{ location.phone }}"><span class="value">{{ location.phone }}</span></a></div>
-  <div class="url">{{ location.url }}</div>
-  <div class="email">{{ location.email }}</div>
-  <div class="twitter">{{ location.twitter }}</div>
+      <p>{{ location.description }}</p>
 
-  <div class="adr">
-    <div class="street-address">{{ location.street_address }}</div>
-    <div class="locality">{{ location.locality }}</div>
-    <div class="region">{{ location.region }}</div>
-    <div class="postal-code">{{ location.postal_code }}</div>
-    <div class="country-name">{{ location.country }}</div>
+      <div class="vcard">
+        <div class="fn org">{{ location.name }}</div>
+        <div class="tel"><span class="type">work</span>: <a href="tel:{{ location.phone }}"><span class="value">{{ location.phone }}</span></a></div>
+        <div class="url">{{ location.url }}</div>
+        <div class="email">{{ location.email }}</div>
+        <div class="twitter">{{ location.twitter }}</div>
+
+        <div class="adr">
+          <div class="street-address">{{ location.street_address }}</div>
+          <div class="locality">{{ location.locality }}</div>
+          <div class="region">{{ location.region }}</div>
+          <div class="postal-code">{{ location.postal_code }}</div>
+          <div class="country-name">{{ location.country }}</div>
+        </div>
+      </div>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'world_location_validate' location.slug %}">Validate it!</a>
+      {% endif %}
+
+      <h3>Created by</h3>
+      {{ location.created_by }}
+
+      <h3>Validated by</h3>
+      {% for user in location.validated_by.all %}
+        {{ user }}
+      {% endfor %}
+
+    </div>
+    <div class="span6">
+      {{ map }}
+    </div>
+    <div class="span3">
+
+    </div>
   </div>
-</div>
-
-{% if user.is_authenticated %}
-<a href="{% url 'world_location_validate' location.slug %}">Validate it!</a>
-{% endif %}
-
-<h3>Created by</h3>
-{{ location.created_by }}
-
-<h3>Validated by</h3>
-{% for user in location.validated_by.all %}
-  {{ user }}
-{% endfor %}
-
 {% endblock %}
