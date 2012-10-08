@@ -2,6 +2,7 @@
 
 from django.views.generic.edit import CreateView
 from django.shortcuts import render, get_object_or_404
+from braces.views import LoginRequiredMixin
 from olwidget.widgets import InfoLayer, Map
 
 from forms import LocationAddForm
@@ -33,7 +34,7 @@ def location_detail(request, slug):
             'location': location,
             })
 
-class LocationAddView(CreateView):
+class LocationAddView(LoginRequiredMixin, CreateView):
     model = Location
     form_class = LocationAddForm
     template_name = 'world/location_add.html'

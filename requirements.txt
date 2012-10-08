@@ -10,3 +10,4 @@ oauth2==1.5.211
 psycopg2==2.4.5
 python-openid==2.2.5
 django-floppyforms==1.0
+django-braces==0.1.7
