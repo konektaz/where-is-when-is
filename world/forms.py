@@ -14,7 +14,7 @@ class LocationAddForm(UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Location
-        exclude = ('created_by', 'zone',)
+        exclude = ('created_by', 'validated_by', 'zone',)
 
     def __init__(self, *args, **kwargs):
         self.zone = kwargs.pop('zone', None)
