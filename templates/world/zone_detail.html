@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load url from future %}
 
 {% block extra-head %}
 {{ map.media }}
@@ -10,7 +11,20 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ zone }}</h1>
 
-{{ map }}
+  <div class="row">
+    <div class="span3">
+      <h1>{{ zone }}</h1>
+    </div>
+    <div class="span6">
+      <p>Geolocate health services and make them available through this site.</p>
+      {{ map }}
+    </div>
+    <div class="span3">
+      <a href="{% url 'world_location_add' zone.slug %}" class="btn btn-primary">Add a new location</a>
+    </div>
+  </div>
+
+
+
 {% endblock %}

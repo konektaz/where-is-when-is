@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
 
     'crispy_forms',
+    'floppyforms',
     'olwidget',
     'south',
     'taggit',
