@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from django.views.generic.edit import CreateView
+from django import http
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import CreateView, View
 from django.shortcuts import render, get_object_or_404
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 from olwidget.widgets import InfoLayer, Map
@@ -49,3 +51,15 @@ class LocationAddView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
         context = super(LocationAddView, self).get_context_data(**kwargs)
         context['zone'] = get_object_or_404(Zone, slug=self.kwargs['slug'])
         return context
+
+
+class LocationValidateView(LoginRequiredMixin, SingleObjectMixin, View):
+    model = Location
+
+    def get(self, request, *args, **kwargs):
+        location = self.get_object()
+        location.validated_by.add(request.user)
+        location.save()
+
+        return http.HttpResponseRedirect(location.get_absolute_url())
+

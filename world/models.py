@@ -93,6 +93,8 @@ class Location(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    validated_by = models.ManyToManyField(User, related_name='validated_locations')
+
     objects = models.GeoManager()
 
     def __unicode__(self):
