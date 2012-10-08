@@ -91,6 +91,7 @@ class Location(models.Model):
     tags = TaggableManager(blank=True)
 
     created_by = models.ForeignKey(User, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     objects = models.GeoManager()
 
