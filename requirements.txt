@@ -1,7 +1,10 @@
-Django==1.4.1
+Django==1.4.2
 South==0.7.6
-django-allauth==0.8.1
+django-allauth==0.8.2
+django-autoslug==1.6.1
+django-braces==0.1.7
 django-crispy-forms==1.1.4
+django-floppyforms==1.0
 django-olwidget==0.50
 django-taggit==0.9.3
 django-tastypie==0.9.11
@@ -9,6 +12,3 @@ httplib2==0.7.6
 oauth2==1.5.211
 psycopg2==2.4.5
 python-openid==2.2.5
-django-floppyforms==1.0
-django-braces==0.1.7
-django-autoslug==1.6.1
