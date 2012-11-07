@@ -11,6 +11,12 @@ from taggit.managers import TaggableManager
 
 
 class Zone(models.Model):
+    """
+    A grouping of administrative areas that is commonly referred to, but is
+    not reflected in our source data.
+    For example, collections of American states may be grouped into "Eastern
+    Seaboard", "Midwest", etc.
+    """
     name = models.CharField('name', max_length=255)
     slug = models.SlugField(max_length=255, unique=True, null=True)
 
@@ -26,22 +32,75 @@ class Zone(models.Model):
 
 
 class WorldBorder(models.Model):
+    """
+    Accommodates data from the Diva-GIS source.
+    [URL]
+    """
     id_0 = models.IntegerField()
     iso = models.CharField('ISO', max_length=3)
     name_0 = models.CharField('name 0', max_length=75)
     id_1 = models.IntegerField()
     name_1 = models.CharField('name 1', max_length=75)
-    varname_1 = models.CharField('var name 1', max_length=150)
-    nl_name_1 = models.CharField('nl name 1', max_length=50)
-    hasc_1 = models.CharField('hasc 1', max_length=15)
-    cc_1 = models.CharField('cc 1', max_length=15)
-    type_1 = models.CharField('type 1', max_length=50)
-    engtype_1 = models.CharField('engtype 1', max_length=50)
-    validfr_1 = models.CharField('validfr 1', max_length=25)
-    validto_1 = models.CharField('validto 1', max_length=25)
-    remarks_1 = models.CharField('remarks 1', max_length=125)
+    varname_1 = models.CharField('var name 1', max_length=150,
+        null=True, blank=True, default='')
+    nl_name_1 = models.CharField('nl name 1', max_length=50,
+        null=True, blank=True, default='')
+    hasc_1 = models.CharField('hasc 1', max_length=15,
+        null=True, blank=True, default='')
+    cc_1 = models.CharField('cc 1', max_length=15,
+        null=True, blank=True, default='')
+    type_1 = models.CharField('type 1', max_length=50,
+        null=True, blank=True, default='')
+    engtype_1 = models.CharField('engtype 1', max_length=50,
+        null=True, blank=True, default='')
+    validfr_1 = models.CharField('validfr 1', max_length=25,
+        null=True, blank=True, default='')
+    validto_1 = models.CharField('validto 1', max_length=25,
+        null=True, blank=True, default='')
+    remarks_1 = models.CharField('remarks 1', max_length=125,
+        null=True, blank=True, default='')
     shape_leng = models.FloatField()
     shape_area = models.FloatField()
+    id_2 = models.IntegerField(null=True, blank=True)
+    name_2 = models.CharField('name 1', max_length=75,
+        null=True, blank=True)
+    varname_2 = models.CharField('var name 1', max_length=150,
+        null=True, blank=True, default='')
+    nl_name_2 = models.CharField('nl name 1', max_length=50,
+        null=True, blank=True, default='')
+    hasc_2 = models.CharField('hasc 1', max_length=15,
+        null=True, blank=True, default='')
+    cc_2 = models.CharField('cc 1', max_length=15,
+        null=True, blank=True, default='')
+    type_2 = models.CharField('type 1', max_length=50,
+        null=True, blank=True, default='')
+    engtype_2 = models.CharField('engtype 1', max_length=50,
+        null=True, blank=True, default='')
+    validfr_2 = models.CharField('validfr 1', max_length=25,
+        null=True, blank=True, default='')
+    validto_2 = models.CharField('validto 1', max_length=25,
+        null=True, blank=True, default='')
+    remarks_2 = models.CharField('remarks 1', max_length=125,
+        null=True, blank=True, default='')
+    id_3 = models.IntegerField(null=True, blank=True)
+    name_3 = models.CharField('name 1', max_length=75,
+        null=True, blank=True, default='')
+    varname_3 = models.CharField('var name 1', max_length=150,
+        null=True, blank=True, default='')
+    nl_name_3 = models.CharField('nl name 1', max_length=50,
+        null=True, blank=True, default='')
+    hasc_3 = models.CharField('hasc 1', max_length=15,
+        null=True, blank=True, default='')
+    type_3 = models.CharField('type 1', max_length=50,
+        null=True, blank=True, default='')
+    engtype_3 = models.CharField('engtype 1', max_length=50,
+        null=True, blank=True, default='')
+    validfr_3 = models.CharField('validfr 1', max_length=25,
+        null=True, blank=True, default='')
+    validto_3 = models.CharField('validto 1', max_length=25,
+        null=True, blank=True, default='')
+    remarks_3 = models.CharField('remarks 1', max_length=125,
+        null=True, blank=True, default='')
 
     zone = models.ForeignKey(Zone, null=True, blank=True)
 
