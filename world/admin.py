@@ -22,7 +22,8 @@ class WorldBorderAdmin(admin.OSMGeoAdmin):
 
 
 class AreaAdmin(MPTTModelAdmin):
-    exclude = ('geom',)
+    pass
+
 
 
 admin.site.register(Zone, ZoneAdmin)

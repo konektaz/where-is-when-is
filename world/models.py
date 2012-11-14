@@ -70,9 +70,6 @@ class Area(models.Model):
     varname = models.CharField('var name', max_length=150)
     type = models.CharField('type', max_length=50)
 
-    geom = models.MultiPolygonField()
-    objects = models.GeoManager()
-
     class Meta:
         ordering = ('name',)
 
@@ -81,10 +78,20 @@ class Area(models.Model):
 
     @property
     def geom_simplify(self):
-        return self.geom.simplify(tolerance=0.001, preserve_topology=True)
+        return self.geom.geom.simplify(tolerance=0.001, preserve_topology=True)
 
 
 mptt.register(Area, order_insertion_by=['name'])
+
+
+class Geom(models.Model):
+    area = models.OneToOneField(Area)
+    geom = models.MultiPolygonField()
+
+    objects = models.GeoManager()
+
+    def __unicode__(self):
+        return self.area.name
 
 
 class LocationType(models.Model):

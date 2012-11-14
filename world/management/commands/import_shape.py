@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.gis.gdal import DataSource, OGRGeometry
 from django.contrib.gis.geos import GEOSGeometry
 
-from world.models import Area
+from world.models import Area, Geom
 
 
 class Command(BaseCommand):
@@ -38,12 +38,11 @@ class Command(BaseCommand):
                 area.name = area_name
                 area.varname = area_varname
                 area.type = 'Country'
-                area.geom = area_geom
-
                 area.save()
 
-
-
+                areageom = Geom(area=area)
+                areageom.geom = area_geom
+                areageom.save()
 
         else:
 
@@ -67,6 +66,9 @@ class Command(BaseCommand):
                 area.name = area_name
                 area.varname = area_varname
                 area.type = area_type
-                area.geom = area_geom
 
                 area.save()
+
+                areageom = Geom(area=area)
+                areageom.geom = area_geom
+                areageom.save()
