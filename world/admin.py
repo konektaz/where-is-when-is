@@ -22,8 +22,7 @@ class WorldBorderAdmin(admin.OSMGeoAdmin):
 
 
 class AreaAdmin(MPTTModelAdmin):
-    pass
-
+    list_display = ('name', 'type', 'path')
 
 
 admin.site.register(Zone, ZoneAdmin)

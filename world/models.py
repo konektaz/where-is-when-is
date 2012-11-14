@@ -69,6 +69,7 @@ class Area(models.Model):
     slug = AutoSlugField(populate_from='name', max_length=255, unique=True)
     varname = models.CharField('var name', max_length=150)
     type = models.CharField('type', max_length=50)
+    path = models.CharField('path', max_length=255, db_index=True, null=True)
 
     class Meta:
         ordering = ('name',)
@@ -76,9 +77,19 @@ class Area(models.Model):
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.update_path()
+        super(Area, self).save(*args, **kwargs)
+
     @property
     def geom_simplify(self):
         return self.geom.geom.simplify(tolerance=0.001, preserve_topology=True)
+
+    def update_path(self):
+        self.path = u'%s' % self.slug
+
+        if self.parent:
+            self.path = u'%s/%s' % ('/'.join([z.slug for z in self.get_ancestors()]), self.path)
 
 
 mptt.register(Area, order_insertion_by=['name'])

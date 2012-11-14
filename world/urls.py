@@ -2,7 +2,7 @@
 
 from django.conf.urls import patterns, url
 
-from views import zone_detail, location_detail, LocationAddView, LocationValidateView
+from views import details, zone_detail, location_detail, LocationAddView, LocationValidateView
 
 
 urlpatterns = patterns(
@@ -12,4 +12,6 @@ urlpatterns = patterns(
     url(r'^location/(?P<slug>[-\w]+)/$', location_detail, name='world_location_detail'),
     url(r'^location/(?P<slug>[-\w]+)/add/$', LocationAddView.as_view(), name='world_location_add'),
     url(r'^location/validate/(?P<slug>[-\w]+)/$', LocationValidateView.as_view(), name='world_location_validate'),
+
+    url(r'^(?P<slug>[0-9A-Za-z-_.//]+)/$', details, name='area-details'),
 )

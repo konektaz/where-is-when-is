@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block extra-head %}
+{{ map.media }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+  {% for a in area.get_ancestors.all %}
+    <li><a href="{% url 'area-details' a.path %}">{{ a.name }}</a> <span class="divider">/</span></li>
+  {% endfor %}
+  <li class="active">{{ area.name }}</li>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="span3">
+      <h1>{{ area }}</h1>
+      {% if subareas %}
+        <div class="well" style="padding: 8px 0;">
+          <ul class="nav nav-list">
+            <li class="nav-header">Sub areas</li>
+            {% for sa in subareas %}
+              <li><a href="{% url 'area-details' sa.path %}">{{ sa.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+    <div class="span6">
+      <p>Geolocate health services and make them available through this site.</p>
+      {{ map }}
+    </div>
+    <div class="span3">
+{% comment %}      <a href="{% url 'world_location_add' area.slug %}" class="btn btn-primary">Add a new location</a> {% endcomment %}
+
+
+
+      {% if locations %}
+        <div class="well" style="padding: 8px 0;">
+          <ul class="nav nav-list">
+            <li class="nav-header">Locations</li>
+            {% for l in locations %}
+              <li><a href="{% url 'world_location_detail' l.slug %}">{{ l.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+
+
+{% endblock %}

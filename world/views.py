@@ -8,7 +8,7 @@ from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 from olwidget.widgets import InfoLayer, Map, InfoMap
 
 from forms import LocationAddForm
-from models import Zone, Location
+from models import Zone, Location, Area
 
 
 def zone_detail(request, slug):
@@ -41,6 +41,37 @@ def location_detail(request, slug):
     return render(request, 'world/location_detail.html', {
         'location': location,
         'map': this_map,
+    })
+
+
+def details(request, slug):
+
+    area = get_object_or_404(Area, path=slug)
+
+    subareas = area.get_children()
+    locations = Location.objects.filter(point__within=area.geom.geom)
+
+    layers = []
+
+    locations_layer = InfoLayer([(l.point, l.map_html) for l in locations])
+
+    layers.append(locations_layer)
+
+    if subareas:
+        subareas_layer = InfoLayer([(sa.geom_simplify, sa.name) for sa in subareas])
+        layers.append(subareas_layer)
+    else:
+        layers.append(InfoLayer([(area.geom_simplify, area.name)]))
+
+    this_map = Map(layers,
+                   {'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
+                    'map_div_style': {'width': '570px', 'height': '400px'}})
+
+    return render(request, 'world/details.html', {
+        'area': area,
+        'map': this_map,
+        'subareas': subareas,
+        'locations': locations,
     })
 
 class LocationAddView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
