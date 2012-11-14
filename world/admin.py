@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.gis import admin
+from mptt.admin import MPTTModelAdmin
 
-from models import Zone, WorldBorder, LocationType, Location
+from models import Zone, WorldBorder, LocationType, Location, Area
 
 
 class ZoneAdmin(admin.ModelAdmin):
@@ -20,7 +21,13 @@ class WorldBorderAdmin(admin.OSMGeoAdmin):
     list_editable = ('zone',)
 
 
+class AreaAdmin(MPTTModelAdmin):
+    pass
+
+
+
 admin.site.register(Zone, ZoneAdmin)
 admin.site.register(LocationType)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(WorldBorder, WorldBorderAdmin)
+admin.site.register(Area, AreaAdmin)

@@ -137,6 +137,7 @@ INSTALLED_APPS = (
 
     'crispy_forms',
     'floppyforms',
+    'mptt',
     'olwidget',
     'south',
     'taggit',
