@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 
 from autoslug import AutoSlugField
+import mptt
+from mptt.models import TreeForeignKey
 from taggit.managers import TaggableManager
 
 
@@ -57,6 +59,32 @@ class WorldBorder(models.Model):
     @property
     def poly_simplify(self):
         return self.mpoly.simplify(tolerance=0.001, preserve_topology=True)
+
+
+class Area(models.Model):
+
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+
+    name = models.CharField('name', max_length=75)
+    slug = AutoSlugField(populate_from='name', max_length=255, unique=True)
+    varname = models.CharField('var name', max_length=150)
+    type = models.CharField('type', max_length=50)
+
+    geom = models.MultiPolygonField()
+    objects = models.GeoManager()
+
+    class Meta:
+        ordering = ('name',)
+
+    def __unicode__(self):
+        return self.name
+
+    @property
+    def geom_simplify(self):
+        return self.geom.simplify(tolerance=0.001, preserve_topology=True)
+
+
+mptt.register(Area, order_insertion_by=['name'])
 
 
 class LocationType(models.Model):
