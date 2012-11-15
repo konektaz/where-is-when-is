@@ -2,7 +2,7 @@
 {% load url from future %}
 
 {% block extra-head %}
-{{ map.media }}
+{{ map.media }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -34,10 +34,6 @@
       {{ map }}
     </div>
     <div class="span3">
-{% comment %}      <a href="{% url 'world_location_add' area.slug %}" class="btn btn-primary">Add a new location</a> {% endcomment %}
-
-
-
       {% if locations %}
         <div class="well" style="padding: 8px 0;">
           <ul class="nav nav-list">
@@ -48,10 +44,7 @@
           </ul>
         </div>
       {% endif %}
-
     </div>
   </div>
-
-
 
 {% endblock %}
