@@ -7,12 +7,11 @@
 
 {% block breadcrumb %}
   <li><a href="/">Home</a> <span class="divider">/</span></li>
-  <li><a href="{{ zone.get_absolute_url }}">{{ zone }}</a> <span class="divider">/</span></li>
   <li class="active">Add a new location</li>
 {% endblock %}
 
 {% block content %}
-<h1>Add a new location in: {{ zone.name }}</h1>
+<h1>Add a new location</h1>
 
 {% crispy form form.helper %}
 

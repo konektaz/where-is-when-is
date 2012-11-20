@@ -14,17 +14,15 @@ class LocationAddForm(UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Location
-        exclude = ('created_by', 'validated_by', 'zone',)
+        exclude = ('created_by', 'validated_by')
 
     def __init__(self, *args, **kwargs):
-        self.zone = kwargs.pop('zone', None)
         self.helper = FormHelper()
         self.helper.add_input(Submit('submit', 'Submit'))
         super(LocationAddForm, self).__init__(*args, **kwargs)
 
     def save(self, force_insert=False, force_update=False, commit=True):
         location = super(LocationAddForm, self).save(commit=False)
-        location.zone = self.zone
         location.created_by = self.user
 
         if commit:
