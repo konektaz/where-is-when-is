@@ -4,11 +4,12 @@ from django import http
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import CreateView, View
 from django.shortcuts import render, get_object_or_404
+from django.contrib.sites.models import Site
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
 from olwidget.widgets import InfoLayer, Map, InfoMap
 
 from forms import LocationAddForm
-from models import Location, Area
+from models import Location, Area, Geom
 
 
 def location_detail(request, slug):
@@ -21,10 +22,18 @@ def location_detail(request, slug):
 
     display_validate_it = not (request.user.is_authenticated() and location.is_validated_by(request.user))
 
+    areas = Geom.objects.filter(geom__contains=location.point).order_by('area__lft')
+    country = areas[0]
+    area = areas[areas.count()-1]
+    tweet_url = 'http://%s%s' % (Site.objects.get_current().domain, location.get_absolute_url())
+    tweet_text = 'See %s in %s, %s. Please validate it!' % (location.name, area, country)
+
     return render(request, 'world/location_detail.html', {
         'location': location,
         'map': this_map,
         'display_validate_it': display_validate_it,
+        'tweet_url': tweet_url,
+        'tweet_text': tweet_text,
     })
 
 
