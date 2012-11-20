@@ -106,7 +106,7 @@ class Location(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True)
     created_at = models.DateTimeField(editable=False)
 
-    validated_by = models.ManyToManyField(User, related_name='validated_locations')
+    validated_by = models.ManyToManyField(User, related_name='validated_locations', blank=True, null=True)
 
     objects = models.GeoManager()
 
@@ -128,3 +128,6 @@ class Location(models.Model):
                 'name': self.name,
                 'url': self.get_absolute_url,
                 })
+
+    def is_validated_by(self, user):
+        return user == self.created_by or user in self.validated_by.all()

@@ -19,9 +19,12 @@ def location_detail(request, slug):
                     'map_div_style': {'width': '570px', 'height': '400px'}})
 
 
+    display_validate_it = not (request.user.is_authenticated() and location.is_validated_by(request.user))
+
     return render(request, 'world/location_detail.html', {
         'location': location,
         'map': this_map,
+        'display_validate_it': display_validate_it,
     })
 
 

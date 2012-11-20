@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      {% if user.is_authenticated %}
+      {% if display_validate_it %}
         <a href="{% url 'world_location_validate' location.slug %}">Validate it!</a>
       {% endif %}
 
@@ -44,6 +44,10 @@
       <h3>Validated by</h3>
       {% for user in location.validated_by.all %}
         {{ user }}
+      {% empty %}
+        {% if display_validate_it %}
+          <p>This location isn't validated yet. Be the first to <a href="{% url 'world_location_validate' location.slug %}">validate it</a>!</p>
+        {% endif %}
       {% endfor %}
 
     </div>
