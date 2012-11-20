@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 
+from django.contrib.gis import geos
+
 from autoslug import AutoSlugField
 import mptt
 from mptt.models import TreeForeignKey
@@ -34,7 +36,7 @@ class Area(models.Model):
 
     @property
     def geom_simplify(self):
-        return self.geom.geom.simplify(tolerance=0.001, preserve_topology=True)
+        return self.geom.simplify
 
     def update_path(self):
         self.path = u'%s' % self.slug
@@ -49,11 +51,25 @@ mptt.register(Area, order_insertion_by=['name'])
 class Geom(models.Model):
     area = models.OneToOneField(Area)
     geom = models.MultiPolygonField()
+    geom_simplified = models.MultiPolygonField(null=True, blank=True)
+    simplified = models.BooleanField(default=False)
 
     objects = models.GeoManager()
 
     def __unicode__(self):
         return self.area.name
+
+    @property
+    def simplify(self):
+        if not self.simplified:
+            geom_simplified = self.geom.simplify(tolerance=0.001, preserve_topology=False)
+            if isinstance(geom_simplified, geos.Polygon):
+                geom_simplified = geos.MultiPolygon(geom_simplified)
+            self.geom_simplified = geom_simplified
+            self.simplified = True
+            self.save()
+
+        return self.geom_simplified
 
 
 class LocationType(models.Model):
