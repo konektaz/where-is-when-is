@@ -37,3 +37,12 @@ body {
 	display: inline;
 	margin-right: 10px;
 }
+
+.avatar {
+    float: left;
+    margin: 5px;
+}
+.avatar img {
+    width: 32px;
+    height: 32px;
+    }

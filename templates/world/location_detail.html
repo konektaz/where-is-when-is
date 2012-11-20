@@ -43,7 +43,9 @@
 
       <h3>Validated by</h3>
       {% for user in location.validated_by.all %}
-        {{ user }}
+        {% with user.socialaccount_set.all.0 as account %}
+          <div class="avatar"><a href="{{ account.get_profile_url }}" target="_blank"><img src="{{ account.get_avatar_url }}" title="{{ account }}"></a></div>
+        {% endwith %}
       {% empty %}
         {% if display_validate_it %}
           <p>This location isn't validated yet. Be the first to <a href="{% url 'world_location_validate' location.slug %}">validate it</a>!</p>
