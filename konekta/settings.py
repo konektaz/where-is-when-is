@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'core',
     'world',
     'mobile',
+    'apiv1',
 )
 
 # A sample logging configuration. The only tangible logging

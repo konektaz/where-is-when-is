@@ -34,6 +34,9 @@ class Area(models.Model):
         self.update_path()
         super(Area, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('area-details', kwargs={'path': self.path})
+
     @property
     def geom_simplify(self):
         return self.geom.simplify

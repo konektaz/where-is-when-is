@@ -37,9 +37,9 @@ def location_detail(request, slug):
     })
 
 
-def details(request, slug):
+def details(request, path):
 
-    area = get_object_or_404(Area, path=slug)
+    area = get_object_or_404(Area, path=path)
 
     subareas = area.get_children()
     locations = Location.objects.filter(point__within=area.geom.geom)

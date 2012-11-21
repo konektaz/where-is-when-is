@@ -1,13 +1,15 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from world.api import LocationResource
+from apiv1.api import Api
+from apiv1.resources import AreaResource, LocationResource
 
 
 admin.autodiscover()
 
-location_resource = LocationResource()
-
+v1_api = Api()
+v1_api.register(AreaResource())
+v1_api.register(LocationResource())
 
 urlpatterns = patterns(
     '',
@@ -16,14 +18,9 @@ urlpatterns = patterns(
 
     url(r'^$', 'core.views.home', name='home'),
     url(r'^about/$', 'core.views.about', name='about'),
-
     url(r'^feedback/$', 'core.views.feedback', name='feedback'),
-
     url(r'^mobile/', include('mobile.urls')),
-
     (r'^accounts/', include('allauth.urls')),
-
-    (r'^api/', include(location_resource.urls)),
-
+    url(r'^api/', include(v1_api.urls)),
     url(r'', include('world.urls')),
 )
