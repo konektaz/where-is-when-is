@@ -1,0 +1,26 @@
+{% extends 'mobile/base_mobile.html' %}
+{% load url from future %}
+
+{% block content %}
+  <div data-role="page" data-add-back-btn="true">
+	<div data-role="header">
+	  <h1>Konekta: {{ object }}</h1>
+	</div>
+	<div data-role="content">
+
+      <ul data-role="listview">
+        <li data-role="list-divider">Subareas</li>
+        {% for sa in subareas %}
+          <li><a href="{% url 'mobile-navigate' sa.path %}">{{ sa }}</a></li>
+        {% endfor %}
+
+        <li data-role="list-divider">Locations</li>
+        {% for l in locations %}
+          <li><a href="{% url 'mobile-location-detail' l.slug %}">{{ l.name }}</a></li>
+        {% endfor %}
+
+      </ul>
+
+	</div>
+  </div>
+{% endblock %}

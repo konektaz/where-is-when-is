@@ -1,0 +1,47 @@
+{% extends 'mobile/base_mobile.html' %}
+{% load url from future %}
+
+{% block content %}
+  <div data-role="page" data-add-back-btn="true">
+	<div data-role="header">
+	  <h1>Konekta: {{ location.name }}</h1>
+	</div>
+	<div data-role="content">
+
+  <p>{{ location.description }}</p>
+
+  <div class="vcard">
+    <div class="fn org">{{ location.name }}</div>
+    <div class="tel"><span class="type">work</span>: <a href="tel:{{ location.phone }}"><span class="value">{{ location.phone }}</span></a></div>
+    <div class="url">{{ location.url }}</div>
+    <div class="email">{{ location.email }}</div>
+    <div class="twitter">{{ location.twitter }}</div>
+
+    <div class="adr">
+      <div class="street-address">{{ location.street_address }}</div>
+      <div class="locality">{{ location.locality }}</div>
+      <div class="region">{{ location.region }}</div>
+      <div class="postal-code">{{ location.postal_code }}</div>
+      <div class="country-name">{{ location.country }}</div>
+    </div>
+  </div>
+
+  <h3>Created by</h3>
+  <div style="overflow:auto;">
+    {% with location.created_by.socialaccount_set.all.0 as account %}
+      <div class="avatar"><a href="{{ account.get_profile_url }}" target="_blank"><img src="{{ account.get_avatar_url }}" title="{{ account }}"></a></div>
+    {% endwith %}
+  </div>
+
+  <h3>Validated by</h3>
+  <div style="overflow:auto;">
+    {% for user in location.validated_by.all %}
+      {% with user.socialaccount_set.all.0 as account %}
+        <div class="avatar"><a href="{{ account.get_profile_url }}" target="_blank"><img src="{{ account.get_avatar_url }}" title="{{ account }}"></a></div>
+      {% endwith %}
+    {% empty %}
+      <p>No one yet.</p>
+    {% endfor %}
+  </div>
+
+{% endblock %}
