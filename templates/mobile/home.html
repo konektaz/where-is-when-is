@@ -8,13 +8,9 @@
 	  <h1>Konekta</h1>
 	</div>
 	<div data-role="content">
-	  <h3>Welcome message content goes here.</h3>
-	  <p>This is how it works goes here.</p>
-	  <p id="demo">Click the button to get your coordinates:</p>
-	  <p><a href="#list" data-role="button" onclick="getLocation()">Find Nearby...</a></p>
-	  <h5 style="text-align:center;">OR</h5>
-	  <p><a href="#search" data-role="button">Search Nearby...</a></p>
-	  <h5 style="text-align:center;">OR</h5>
+	  <h3>Search for community services based on your current location</h3>
+	  <p><a href="#list" data-role="button" onclick="getLocation()">All services</a></p>
+	  <p><a href="{% url 'mobile-type' %}" data-role="button">Search by service type</a></p>
 	  <p><a href="{% url 'mobile-navigate' 'india' %}" data-role="button">Explore India</a></p>
 	</div>
   </div>
