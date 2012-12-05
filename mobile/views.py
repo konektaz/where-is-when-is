@@ -19,7 +19,7 @@ class SearchView(ListView):
         lat = float(self.request.GET['lat'])
         lng = float(self.request.GET['lng'])
 
-        pnt = Point(lat, lng)
+        pnt = Point(lng, lat)
 
         return Location.objects.filter(point__distance_lte=(pnt, D(km=5)))
 
