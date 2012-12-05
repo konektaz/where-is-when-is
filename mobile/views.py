@@ -2,12 +2,26 @@
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, ListView
+from django.contrib.gis.measure import D
+from django.contrib.gis.geos import Point
 
 from world.models import Area, Location, LocationType
 
 
 def home(request):
     return render(request, 'mobile/home.html')
+
+
+class SearchView(ListView):
+    template_name = 'mobile/location_list.html'
+
+    def get_queryset(self):
+        lat = float(self.request.GET['lat'])
+        lng = float(self.request.GET['lng'])
+
+        pnt = Point(lat, lng)
+
+        return Location.objects.filter(point__distance_lte=(pnt, D(km=5)))
 
 
 class NavigateView(DetailView):
