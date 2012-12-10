@@ -23,8 +23,8 @@ class Command(BaseCommand):
         if level == 0:
             for feat in layer:
                 area_id = feat['GADMID'].value
-                area_name = feat['NAME_ENGLI'].value
-                area_varname = feat['NAME_LOCAL'].value
+                area_name = unicode(feat['NAME_ENGLI'].value, 'iso-8859-1')
+                area_varname = unicode(feat['NAME_LOCAL'].value, 'iso-8859-1')
 
                 mpgeom = OGRGeometry('MultiPolygon')
                 mpgeom.add(feat.geom)
