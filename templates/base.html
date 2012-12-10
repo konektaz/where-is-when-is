@@ -1,4 +1,4 @@
-{% load account analytics cms_tags sekizai_tags %}
+{% load account analytics cms_tags sekizai_tags world_tags %}
 {% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
@@ -39,9 +39,7 @@
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'area-details' 'india' %}">India</a></li>
-            <li><a href="{% url 'area-details' 'south-africa' %}">South Africa</a></li>
-            <li><a href="{% url 'area-details' 'sri-lanka' %}">Sri Lanka</a></li>
+            {% nav_countries %}
           </ul>
 
           <ul class="nav pull-right">
