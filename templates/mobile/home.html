@@ -1,1 +1,32 @@
 {% extends 'mobile/base_mobile.html' %}
+{% load url from future %}
+
+{% block content %}
+  <!-- Home page -->
+  <div data-role="page" id="home">
+	<div data-role="header" data-position="fixed">
+	  <h1>Konekta</h1>
+	</div>
+	<div data-role="content">
+	  <h3>Search for community services based on your current location</h3>
+	  <p><a href="#list" data-role="button" onclick="getLocation()">All services</a></p>
+	  <p><a href="{% url 'mobile-type' %}" data-role="button">Search by service type</a></p>
+	  <p><a href="{% url 'mobile-navigate' 'india' %}" data-role="button">Explore India</a></p>
+	</div>
+  </div>
+
+  <!-- Search Page -->
+  <div data-role="page" id="search" data-position="fixed">
+	<div data-role="header"> <a href="#home" data-icon="back">Back</a>
+	  <h1>Search</h1>
+	</div>
+	<div data-role="content">
+	  <form method="get" action="/mobile-search_result/">
+        <label for="searchfield" class="ui-hidden-accessible">Search:</label>
+		<input type="search" id="searchfield" name="q" value="">
+        <button type="submit">Search</button>
+
+	  </form>
+	</div>
+  </div>
+{% endblock %}

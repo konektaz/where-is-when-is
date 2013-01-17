@@ -6,6 +6,7 @@ from django.views.generic import CreateView, View
 from django.shortcuts import render, get_object_or_404
 from django.contrib.sites.models import Site
 from braces.views import LoginRequiredMixin, UserFormKwargsMixin
+from cms.views import details as cms_details
 from olwidget.widgets import InfoLayer, Map, InfoMap
 
 from forms import LocationAddForm
@@ -37,9 +38,13 @@ def location_detail(request, slug):
     })
 
 
-def details(request, slug):
+def details(request, path):
 
-    area = get_object_or_404(Area, path=slug)
+    try:
+        area = Area.objects.get(path=path)
+    except Area.DoesNotExist:
+        # Dirty hack to try Django-CMS pages.
+        return cms_details(request, slug=path)
 
     subareas = area.get_children()
     locations = Location.objects.filter(point__within=area.geom.geom)

@@ -1,0 +1,18 @@
+{% extends 'mobile/base_mobile.html' %}
+{% load url from future %}
+
+{% block content %}
+  <div data-role="page" data-add-back-btn="true">
+	<div data-role="header">
+	  <h1>Konekta: Locations</h1>
+	</div>
+	<div data-role="content">
+
+      <ul data-role="listview">
+      {% for object in object_list %}
+        <li><a href="{% url 'mobile-location-detail' object.slug %}">{{ object }}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

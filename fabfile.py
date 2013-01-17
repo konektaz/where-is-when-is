@@ -14,7 +14,7 @@ def live():
     Define the host for main site.
     """
     env.hosts = ['webdeploy@konekta']
-    env.sitename = 'india.konekta.info'
+    env.sitename = 'konekta.info'
     env.path = 'sites/%s' % (env.sitename,)
     env.repo = 'git://github.com/konekta/where-is-when-is.git'
 

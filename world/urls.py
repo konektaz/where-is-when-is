@@ -12,5 +12,5 @@ urlpatterns = patterns(
     url(r'^location/(?P<slug>[-\w]+)/$', location_detail, name='world_location_detail'),
     url(r'^location/validate/(?P<slug>[-\w]+)/$', LocationValidateView.as_view(), name='world_location_validate'),
 
-    url(r'^(?P<slug>[0-9A-Za-z-_.//]+)/$', details, name='area-details'),
+    url(r'^(?P<path>[0-9A-Za-z-_.//]+)/$', details, name='area-details'),
 )
