@@ -34,10 +34,12 @@ class Command(BaseCommand):
                 print "%s %s %s" % (area_id, area_name, area_varname)
 
                 area = Area()
-                area.id = area_id
+                area.shape_id = area_id
                 area.name = area_name
                 area.varname = area_varname
                 area.type = 'Country'
+                area.save()
+                area.update_path()
                 area.save()
 
                 areageom = Geom(area=area)
@@ -61,13 +63,16 @@ class Command(BaseCommand):
                 print "%s (%s): %s (%s)" % (area_id, parent_id, area_name, area_type)
 
                 area = Area()
-                area.id = area_id
-                area.parent_id = parent_id
+                area.shape_id = area_id
+                area.parent_id = Area.objects.get(shape_id=parent_id).pk
                 area.name = area_name
                 area.varname = area_varname
                 area.type = area_type
 
                 area.save()
+                area.update_path()
+                area.save()
+
 
                 areageom = Geom(area=area)
                 areageom.geom = area_geom

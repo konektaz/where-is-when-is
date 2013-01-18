@@ -18,8 +18,10 @@ class Area(models.Model):
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 
+    shape_id = models.IntegerField()
+
     name = models.CharField('name', max_length=75)
-    slug = AutoSlugField(populate_from='name', max_length=255, unique=True)
+    slug = AutoSlugField(populate_from='name', max_length=255, unique_with='parent__name')
     varname = models.CharField('var name', max_length=150)
     type = models.CharField('type', max_length=50)
     path = models.CharField('path', max_length=255, db_index=True, null=True)
@@ -29,10 +31,6 @@ class Area(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.update_path()
-        super(Area, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('area-details', kwargs={'path': self.path})
