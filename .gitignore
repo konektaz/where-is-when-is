@@ -1,5 +1,6 @@
 /konekta/local_settings.py
 /env
+/media/
 
 *.pyc
 .*.swp
