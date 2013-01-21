@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load cms_tags %}
+{% load cms_tags sekizai_tags %}
 
 {% block content %}
 <div class="row">
@@ -7,4 +7,19 @@
     {% placeholder content %}
   </div>
 </div>
+
+{% addtoblock "js" %}
+<script type="text/javascript">
+$(function(){
+  // side bar
+  $('.bs-docs-sidenav').affix({
+    offset: {
+      top: function () { return $window.width() <= 980 ? 290 : 210 }
+      ,bottom: 270
+    }
+  });
+});
+</script>
+{% endaddtoblock %}
+
 {% endblock %}
