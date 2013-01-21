@@ -8,6 +8,21 @@
   </div>
 </div>
 
+
+{% addtoblock "css" %}
+<style type="text/css" media="screen">
+  bs-docs-sidebar { min-height: 1px; }
+  .bs-docs-sidenav.affix {
+    top: 40px;
+  }
+  .bs-docs-sidenav.affix-bottom {
+    position: absolute;
+    top: auto;
+    bottom: 270px;
+  }
+</style>
+{% endaddtoblock %}
+
 {% addtoblock "js" %}
 <script type="text/javascript">
 $(function(){
