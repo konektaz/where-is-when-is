@@ -7,6 +7,9 @@ import xml.etree.ElementTree as ET
 from django.core.management.base import BaseCommand
 from world.models import Location, LocationType
 from django.contrib.gis.geos import Point
+from django.db.utils import DatabaseError
+from django.db import transaction
+
 
 class Command(BaseCommand):
     args = '<path_to_xml_query>'
@@ -39,16 +42,46 @@ The query XML file contains Overpass XML query.
                 items = ET.fromstring(response.read())
 
                 for node in items:
-                    location_type = LocationType.objects.get(name="hospital")
+                    location_type = LocationType.objects.get(name="Hospital")
 
-                    if node.attrib.get('lon') is not None:
+                    with transaction.commit_on_success():
 
-                        for tag in node:
-                            if tag.attrib.get('k') == 'name':
-                                name = tag.attrib.get('v')
+                        if node.attrib.get('lon') is not None:
 
-                        point = Point(float(node.attrib.get('lon')), float(node.attrib.get('lat')))
-                        location = Location(name=name, type=location_type, point=point)
-                        location.save()
+                            for tag in node:
+                                if tag.attrib.get('k') == 'name':
+                                    name = tag.attrib.get('v')
+
+                            point = Point(float(node.attrib.get('lon')), float(node.attrib.get('lat')))
+                            location = Location(name=name, type=location_type, point=point)
+
+                            # some manual mapping
+                            for tag in node:
+
+                                if tag.attrib.get('k') == 'phone':
+                                    location.phone = tag.attrib.get('v')
+
+                                if tag.attrib.get('k') == 'addr:city':
+                                    location.locality = tag.attrib.get('v')
+
+                                if tag.attrib.get('k') == 'addr:street':
+                                    location.street_address = tag.attrib.get('v')
+
+                                if tag.attrib.get('k') == 'addr:postcode':
+                                    location.postal_code = tag.attrib.get('v')
+
+                                if tag.attrib.get('k') == 'email':
+                                    location.email = tag.attrib.get('v')
+
+                                if tag.attrib.get('k') == 'addr:website':
+                                    location.url = tag.attrib.get('v')
+
+                                if tag.attrib.get('k') == 'address':
+                                    location.street_address = tag.attrib.get('v')
+
+                            try:
+                                location.save()
+                            except DatabaseError as e:
+                                print "Cannot add record", e
 
 
