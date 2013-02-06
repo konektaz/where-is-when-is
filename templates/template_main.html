@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load cms_tags %}
+{% load cms_tags sekizai_tags %}
 
 {% block content %}
 <div class="row">
@@ -7,4 +7,36 @@
     {% placeholder content %}
   </div>
 </div>
+
+
+{% addtoblock "css" %}
+<style type="text/css" media="screen">
+  .bs-docs-sidebar { min-height: 1px; }
+  .bs-docs-sidenav.affix {
+    top: 40px;
+  }
+  .bs-docs-sidenav.affix-bottom {
+    position: absolute;
+    top: auto;
+    bottom: 270px;
+  }
+  .page-header h1 { padding-top:50px; }
+</style>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+<script type="text/javascript">
+$(function(){
+  var $window = $(window);
+  // side bar
+  $('.bs-docs-sidenav').affix({
+    offset: {
+      top: function () { return $window.width() <= 980 ? 290 : 210 }
+      ,bottom: 270
+    }
+  });
+});
+</script>
+{% endaddtoblock %}
+
 {% endblock %}

@@ -37,6 +37,13 @@
       {% if locations %}
         <div class="well" style="padding: 8px 0;">
           <ul class="nav nav-list">
+
+            <li class="nav-header">In this area</li>
+            {% regroup locations by type as type_list %}
+            {% for type in type_list %}
+              <li>{{ type.grouper }}: {{ type.list|length }}</li>
+            {% endfor %}
+
             <li class="nav-header">Locations</li>
             {% for l in locations %}
               <li><a href="{% url 'world_location_detail' l.slug %}">{{ l.name }}</a></li>
