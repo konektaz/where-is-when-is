@@ -45,4 +45,15 @@ body {
 .avatar img {
     width: 32px;
     height: 32px;
-    }
+}
+
+a.brand {
+    background: url(../images/konekta_logo_white32.png) no-repeat;
+    display: block;
+    width: 110px;
+}
+
+a.brand span {
+    display: block;
+    text-indent: -9999px;
+}
