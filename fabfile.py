@@ -20,10 +20,19 @@ def live():
 
 def staging():
     """
-    Define the host for main site.
+    Define the host for staging site.
     """
     env.hosts = ['webdeploy@konekta']
     env.sitename = 'staging.konekta.info'
+    env.path = 'sites/%s' % (env.sitename,)
+    env.repo = 'git://github.com/konekta/where-is-when-is.git'
+
+def test():
+    """
+    Define the host for test site.
+    """
+    env.hosts = ['webdeploy@konekta']
+    env.sitename = 'test.konekta.info'
     env.path = 'sites/%s' % (env.sitename,)
     env.repo = 'git://github.com/konekta/where-is-when-is.git'
 
