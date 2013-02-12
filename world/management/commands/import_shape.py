@@ -55,6 +55,13 @@ class Command(BaseCommand):
                     area_varname = unicode(feat['VARNAME_%s' % level].value, 'iso-8859-1')
                     area_type = unicode(feat['TYPE_%s' % level].value, 'iso-8859-1')
 
+                    try:
+                        Area.objects.get(shape_id=area_id)
+                    except Area.DoesNotExist:
+                        pass
+                    else:
+                        continue
+
                     mpgeom = OGRGeometry('MultiPolygon')
                     mpgeom.add(feat.geom)
 
