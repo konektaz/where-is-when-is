@@ -217,6 +217,7 @@ LOGIN_REDIRECT_URL = '/'
 
 CMS_TEMPLATES = (
     ('template_main.html', 'Template main'),
+    ('template_homepage.html', 'Homepage'),
 )
 
 THUMBNAIL_PROCESSORS = (

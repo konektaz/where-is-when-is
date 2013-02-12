@@ -69,6 +69,7 @@
     </div>
   </div>
 
+  {% block wholepage %}
   <div class="container">
     <ul class="breadcrumb">
     {% block breadcrumb %}
@@ -79,6 +80,7 @@
     {% block content %}{% endblock %}
 
   </div> <!-- /container -->
+  {% endblock %}
 
   <div id="feedbackbtn">
     <a href="{% url 'feedback' %}"><span>Feedback</span></a>
