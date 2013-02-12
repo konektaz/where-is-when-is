@@ -18,8 +18,6 @@ class Command(BaseCommand):
         ds = DataSource(shape_file)
         layer = ds[0]
 
-        print layer.fields
-
         if level == 0:
             for feat in layer:
                 area_id = feat['GADMID'].value
@@ -34,10 +32,12 @@ class Command(BaseCommand):
                 print "%s %s %s" % (area_id, area_name, area_varname)
 
                 area = Area()
-                area.id = area_id
+                area.shape_id = area_id
                 area.name = area_name
                 area.varname = area_varname
                 area.type = 'Country'
+                area.save()
+                area.update_path()
                 area.save()
 
                 areageom = Geom(area=area)
@@ -46,29 +46,31 @@ class Command(BaseCommand):
 
         else:
 
-            for feat in layer:
-                parent_id = feat['ID_%s' % (level-1,)].value
-                area_id = feat['ID_%s' % level].value
-                area_name = unicode(feat['NAME_%s' % level].value, 'iso-8859-1')
-                area_varname = unicode(feat['VARNAME_%s' % level].value, 'iso-8859-1')
-                area_type = unicode(feat['TYPE_%s' % level].value, 'iso-8859-1')
+            with Area.objects.delay_mptt_updates():
 
-                mpgeom = OGRGeometry('MultiPolygon')
-                mpgeom.add(feat.geom)
+	        for feat in layer:
+                    parent_id = feat['ID_%s' % (level-1,)].value
+                    area_id = feat['ID_%s' % level].value
+                    area_name = unicode(feat['NAME_%s' % level].value, 'iso-8859-1')
+                    area_varname = unicode(feat['VARNAME_%s' % level].value, 'iso-8859-1')
+                    area_type = unicode(feat['TYPE_%s' % level].value, 'iso-8859-1')
 
-                area_geom = GEOSGeometry(mpgeom.wkt)
+                    mpgeom = OGRGeometry('MultiPolygon')
+                    mpgeom.add(feat.geom)
 
-                print "%s (%s): %s (%s)" % (area_id, parent_id, area_name, area_type)
+                    area_geom = GEOSGeometry(mpgeom.wkt)
 
-                area = Area()
-                area.id = area_id
-                area.parent_id = parent_id
-                area.name = area_name
-                area.varname = area_varname
-                area.type = area_type
+                    print "%s (%s): %s (%s)" % (area_id, parent_id, area_name, area_type)
 
-                area.save()
+                    area = Area()
+                    area.shape_id = area_id
+                    area.parent_id = Area.objects.get(shape_id=parent_id).pk
+                    area.name = area_name
+                    area.varname = area_varname
+                    area.type = area_type
 
-                areageom = Geom(area=area)
-                areageom.geom = area_geom
-                areageom.save()
+                    area.save()
+
+                    areageom = Geom(area=area)
+                    areageom.geom = area_geom
+                    areageom.save()
