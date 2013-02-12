@@ -11,7 +11,6 @@ django-crispy-forms==1.1.4
 django-extensions==1.0.0
 django-filer==0.9.3
 django-floppyforms==1.0
-django-mptt==0.5.2
 -e git://github.com/django-mptt/django-mptt.git@bf8afb2122107c80943bf68bf9754d9c7c512622#egg=django_mptt-dev
 django-olwidget==0.50
 django-polymorphic==0.2
