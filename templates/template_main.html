@@ -1,13 +1,30 @@
 {% extends 'base.html' %}
 {% load cms_tags sekizai_tags %}
 
-{% block content %}
-<div class="row">
-  <div class="span12">
-    {% placeholder content %}
-  </div>
-</div>
+{% block wholepage %}
 
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+
+    {% placeholder teaser %}
+
+  </div>
+</header>
+
+
+  <div class="container">
+
+    <!-- Docs nav
+    ================================================== -->
+    <div class="row">
+      <div class="span3 bs-docs-sidebar">
+        {% placeholder sidebar %}
+      </div>
+      <div class="span9">
+        {% placeholder content %}
+      </div>
+    </div>
+  </div>
 
 {% addtoblock "css" %}
 <style type="text/css" media="screen">
