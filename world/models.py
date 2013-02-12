@@ -9,12 +9,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.gis import geos
 
 from autoslug import AutoSlugField
-import mptt
-from mptt.models import TreeForeignKey
+from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
 
 
-class Area(models.Model):
+class Area(MPTTModel):
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 
@@ -28,6 +27,9 @@ class Area(models.Model):
 
     class Meta:
         ordering = ('name',)
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
     def __unicode__(self):
         return self.name
@@ -44,9 +46,6 @@ class Area(models.Model):
 
         if self.parent:
             self.path = u'%s/%s' % ('/'.join([z.slug for z in self.get_ancestors()]), self.path)
-
-
-mptt.register(Area, order_insertion_by=['name'])
 
 
 class Geom(models.Model):
