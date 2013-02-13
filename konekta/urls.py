@@ -4,10 +4,11 @@ from django.contrib import admin
 
 from apiv1.api import Api
 from apiv1.resources import AreaResource, LocationResource
-
+import autocomplete_light
 from cms.views import details
 
 
+autocomplete_light.autodiscover()
 admin.autodiscover()
 
 v1_api = Api()
@@ -18,6 +19,7 @@ urlpatterns = patterns(
     '',
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
 
     url(r'^$', details, {'slug': ''}, name='pages-root'),
     url(r'^feedback/$', 'core.views.feedback', name='feedback'),

@@ -262,3 +262,16 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
   margin: 0 auto 30px;
   max-height: 145px;
 }
+
+.autocompleteresults {
+    text-align:left;
+    padding: 0 10px;
+    color: #555;
+}
+.autocompleteresults a {
+    color: #555;
+    display: block;
+}
+#globalautocomplete {
+    height: 40px;
+}

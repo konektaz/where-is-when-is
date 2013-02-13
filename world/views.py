@@ -73,6 +73,19 @@ def details(request, path):
     })
 
 
+def global_autocomplete(request, template_name='global_autocomplete.html'):
+    q = request.GET.get('q', '')
+    context = {'q': q}
+
+    queries = {}
+    queries['areas'] = Area.objects.filter(name__icontains=q)[:10]
+    print queries
+
+    context.update(queries)
+
+    return render(request, template_name, context)
+
+
 class LocationAddView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
     model = Location
     form_class = LocationAddForm

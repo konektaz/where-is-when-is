@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load cms_tags sekizai_tags %}
+{% load url from future %}
 
 {% block wholepage %}
 
@@ -8,7 +9,7 @@
     {% placeholder teaser %}
     <form>
       <fieldset>
-        <input type="text" placeholder="Type in the name of the area..">
+        <input type="text" class="input-xlarge" placeholder="Type in the name of the area.." id="globalautocomplete">
         <a class="btn btn-large btn-primary" href="#">Go there</a>
       </fieldset>
     </form>
@@ -59,5 +60,20 @@
     </div>
   </div>
 </div>
+
+
+
+{% addtoblock 'js' %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#globalautocomplete').yourlabsAutocomplete({
+        url: '{% url 'global_autocomplete' %}',
+        choiceSelector: 'a',
+    }).input.bind('selectChoice', function(e, choice, autocomplete) {
+        document.location.href = choice.attr('href');
+    });
+});
+</script>
+{% endaddtoblock %}
 
 {% endblock %}

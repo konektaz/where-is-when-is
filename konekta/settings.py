@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.gis',
 
+    'autocomplete_light',
     'cms',
     'crispy_forms',
     'easy_thumbnails',
