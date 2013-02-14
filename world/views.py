@@ -17,7 +17,7 @@ def location_detail(request, slug):
     location = get_object_or_404(Location, slug=slug)
 
     this_map = InfoMap([(location.point, location.map_html)],
-                   {'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
+                   {#'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
                     'map_div_style': {'width': '570px', 'height': '400px'}})
 
 
@@ -62,7 +62,7 @@ def details(request, path):
         layers.append(InfoLayer([(area.geom_simplify, area.name)]))
 
     this_map = Map(layers,
-                   {'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
+                   {#'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
                     'map_div_style': {'width': '570px', 'height': '400px'}})
 
     return render(request, 'world/details.html', {
