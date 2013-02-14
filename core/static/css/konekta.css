@@ -27,6 +27,7 @@ body {
 
 .footer p {
 	color: #777;
+    text-align: center;
 }
 
 .footer-links {
@@ -160,7 +161,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
-  padding: 70px 0 80px;
+  padding: 130px 0 80px;
   margin-bottom: 0;
   color: #fff;
 }
