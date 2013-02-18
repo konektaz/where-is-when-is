@@ -344,3 +344,5 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
   top: auto;
   bottom: 270px;
 }
+.bs-docs-sidebar { min-height: 1px; }
+.page-header h1 { padding-top:50px; }
