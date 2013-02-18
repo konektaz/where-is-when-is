@@ -14,7 +14,7 @@
 
 
       {% for country in countries %}
-        <p><a href="{% url 'mobile-navigate' country.path }}" data-role="button">Explore {{ country }}</a></p>
+        <p><a href="{% url 'mobile-navigate' country.path %}" data-role="button">Explore {{ country }}</a></p>
       {% endfor %}
 
 	</div>
