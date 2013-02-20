@@ -27,7 +27,7 @@ def location_detail(request, slug):
     country = areas[0]
     area = areas[areas.count()-1]
     tweet_url = 'http://%s%s' % (Site.objects.get_current().domain, location.get_absolute_url())
-    tweet_text = 'See %s in %s, %s. Please validate it!' % (location.name, area, country)
+    tweet_text = 'See %s in %s, %s. Please validate this %s' % (location.name, area, country, location.type.name)
 
     return render(request, 'world/location_detail.html', {
         'location': location,
