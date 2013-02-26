@@ -20,7 +20,10 @@ class Command(BaseCommand):
 
         if level == 0:
             for feat in layer:
-                area_id = feat['GADMID'].value
+                try:
+                    area_id = feat['ID_0'].value
+                except:
+                    area_id = feat['GADMID'].value
                 area_name = unicode(feat['NAME_ENGLI'].value, 'iso-8859-1')
                 area_varname = unicode(feat['NAME_LOCAL'].value, 'iso-8859-1')
 
@@ -52,7 +55,10 @@ class Command(BaseCommand):
                     parent_id = feat['ID_%s' % (level-1,)].value
                     area_id = feat['ID_%s' % level].value
                     area_name = unicode(feat['NAME_%s' % level].value, 'iso-8859-1')
-                    area_varname = unicode(feat['VARNAME_%s' % level].value, 'iso-8859-1')
+                    try:
+                        area_varname = unicode(feat['VARNAME_%s' % level].value, 'iso-8859-1')
+                    except:
+                        area_varname = ''
                     area_type = unicode(feat['TYPE_%s' % level].value, 'iso-8859-1')
 
                     try:
