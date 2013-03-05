@@ -1,4 +1,4 @@
-{% load account analytics cms_tags sekizai_tags world_tags %}
+{% load account analytics cms_tags sekizai_tags world_tags konekta %}
 {% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +60,13 @@
                 </ul>
               </li>
             {% else %}
-              <li><a href="{% url 'account_login' %}">Sign In</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+                <div class="dropdown-menu" style="padding: 15px;">
+
+                  {% display_nav_login_form %}
+                </div>
+              </li>
               <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
             {% endif %}
           </ul>
@@ -103,7 +109,7 @@
   <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 
   {% include 'autocomplete_light/static.html' %}
-  
+
   {% render_block "js" %}
 </body>
 </html>

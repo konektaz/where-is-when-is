@@ -346,3 +346,20 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 }
 .bs-docs-sidebar { min-height: 1px; }
 .page-header h1 { padding-top:50px; }
+
+.socialaccount_providers {
+    overflow:auto;
+    }
+.socialaccount_providers a{
+    height: 48px;
+    width: 48px;
+    display: block;
+    float:left;
+}
+.socialaccount_providers a span{
+    text-indent: -9999px;
+    display: block;
+}
+.socialaccount_provider.twitter{
+    background: url(../images/login-twitter.png) no-repeat;
+}
