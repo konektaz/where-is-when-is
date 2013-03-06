@@ -11,7 +11,12 @@
 	  <h3>Search for community services based on your current location</h3>
 	  <p><a href="#list" data-role="button" onclick="getLocation()">All services</a></p>
 	  <p><a href="{% url 'mobile-type' %}" data-role="button">Search by service type</a></p>
-	  <p><a href="{% url 'mobile-navigate' 'india' %}" data-role="button">Explore India</a></p>
+
+
+      {% for country in countries %}
+        <p><a href="{% url 'mobile-navigate' country.path %}" data-role="button">Explore {{ country }}</a></p>
+      {% endfor %}
+
 	</div>
   </div>
 

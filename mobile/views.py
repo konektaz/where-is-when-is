@@ -9,7 +9,8 @@ from world.models import Area, Location, LocationType
 
 
 def home(request):
-    return render(request, 'mobile/home.html')
+    countries = Area.objects.filter(level=0)
+    return render(request, 'mobile/home.html', {'countries': countries})
 
 
 class SearchView(ListView):

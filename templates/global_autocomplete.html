@@ -1,0 +1,13 @@
+{% load url from future %}
+<div class="autocompleteresults">
+{% for area in areas %}
+  <div>
+    <a href="{% url 'area-details' area.path %}">
+      {% for a in area.get_ancestors.all %}
+        {{ a.name }} <span class="divider">/</span>
+      {% endfor %}
+      {{ area }}
+    </a>
+  </div>
+{% endfor %}
+</div>

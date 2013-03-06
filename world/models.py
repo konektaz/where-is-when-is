@@ -9,17 +9,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.gis import geos
 
 from autoslug import AutoSlugField
-import mptt
-from mptt.models import TreeForeignKey
+from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
 
 
-class Area(models.Model):
+class Area(MPTTModel):
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 
+    shape_id = models.IntegerField()
+
     name = models.CharField('name', max_length=75)
-    slug = AutoSlugField(populate_from='name', max_length=255, unique=True)
+    slug = AutoSlugField(populate_from='name', max_length=255, unique_with='parent__name')
     varname = models.CharField('var name', max_length=150)
     type = models.CharField('type', max_length=50)
     path = models.CharField('path', max_length=255, db_index=True, null=True)
@@ -27,12 +28,11 @@ class Area(models.Model):
     class Meta:
         ordering = ('name',)
 
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     def __unicode__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.update_path()
-        super(Area, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('area-details', kwargs={'path': self.path})
@@ -46,9 +46,6 @@ class Area(models.Model):
 
         if self.parent:
             self.path = u'%s/%s' % ('/'.join([z.slug for z in self.get_ancestors()]), self.path)
-
-
-mptt.register(Area, order_insertion_by=['name'])
 
 
 class Geom(models.Model):

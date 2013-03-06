@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.gis',
 
+    'autocomplete_light',
     'cms',
     'crispy_forms',
     'easy_thumbnails',
@@ -217,6 +218,7 @@ LOGIN_REDIRECT_URL = '/'
 
 CMS_TEMPLATES = (
     ('template_main.html', 'Template main'),
+    ('template_homepage.html', 'Homepage'),
 )
 
 THUMBNAIL_PROCESSORS = (
@@ -258,6 +260,9 @@ DEFAULT_FROM_EMAIL = environ.get('EMAIL_HOST_USER', 'registration@konekta.info')
 ########## END EMAIL CONFIGURATION
 
 try:
-    from local_settings import *
-except ImportError:
-    pass
+    LOCAL_SETTINGS
+except NameError:
+    try:
+        from local_settings import *
+    except ImportError:
+        pass

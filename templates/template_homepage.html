@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load cms_tags sekizai_tags %}
+{% load url from future %}
+
+{% block wholepage %}
+
+<div class="jumbotron masthead">
+  <div class="container">
+    {% placeholder teaser %}
+    <form>
+      <fieldset>
+        <input type="text" class="input-xlarge" placeholder="Type in the name of the area.." id="globalautocomplete">
+        <a class="btn btn-large btn-primary" href="#">Go there</a>
+      </fieldset>
+    </form>
+
+    <ul class="masthead-links">
+      <li>
+        <a href="http://github.com/konekta/where-is-when-is" >GitHub project</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="bs-docs-social">
+  <div class="container">
+    <ul class="bs-docs-social-buttons">
+      <li class="follow-btn">
+        <a href="https://twitter.com/konektaz" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @konektaz</a>
+      </li>
+      <li class="tweet-btn">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.konekta.info" data-count="horizontal" data-text="Geolocate community services and make them available through a mobile site" data-via="konektaz">Tweet</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="marketing">
+
+    <p class="marketing-byline"></p>
+
+    <div class="row-fluid">
+      <div class="span3">
+        {% placeholder col1 %}
+      </div>
+
+      <div class="span3">
+        {% placeholder col2 %}
+      </div>
+
+      <div class="span3">
+        {% placeholder col3 %}
+      </div>
+
+      <div class="span3">
+        {% placeholder col4 %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+{% addtoblock 'js' %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#globalautocomplete').yourlabsAutocomplete({
+        url: '{% url 'global_autocomplete' %}',
+        choiceSelector: 'a',
+    }).input.bind('selectChoice', function(e, choice, autocomplete) {
+        document.location.href = choice.attr('href');
+    });
+});
+</script>
+{% endaddtoblock %}
+
+{% endblock %}

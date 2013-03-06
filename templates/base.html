@@ -1,4 +1,4 @@
-{% load account analytics cms_tags sekizai_tags world_tags %}
+{% load account analytics cms_tags sekizai_tags world_tags konekta %}
 {% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="mark herringer" >
+
+  <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/konekta_icon.png">
 
   <!-- Le styles -->
   <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -35,7 +37,8 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="/">Konekta</a>
+        <a class="brand" href="/"><span>Konekta</span></a>
+
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li><a href="{% page_url 'about' %}">About</a></li>
@@ -57,7 +60,13 @@
                 </ul>
               </li>
             {% else %}
-              <li><a href="{% url 'account_login' %}">Sign In</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+                <div class="dropdown-menu" style="padding: 15px;">
+
+                  {% display_nav_login_form %}
+                </div>
+              </li>
               <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
             {% endif %}
           </ul>
@@ -66,6 +75,7 @@
     </div>
   </div>
 
+  {% block wholepage %}
   <div class="container">
     <ul class="breadcrumb">
     {% block breadcrumb %}
@@ -76,6 +86,7 @@
     {% block content %}{% endblock %}
 
   </div> <!-- /container -->
+  {% endblock %}
 
   <div id="feedbackbtn">
     <a href="{% url 'feedback' %}"><span>Feedback</span></a>
@@ -85,16 +96,20 @@
     <div class="container">
       <p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB"><img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br />This work by <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.konekta.info" property="cc:attributionName" rel="cc:attributionURL">http://www.konekta.info</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
       <p>Contact us: <a href="mailto:info@konekta.info">info@konekta.info</a></p>
-      <ul class="footer-links">
-        <li><a href="https://github.com/konekta/where-is-when-is">Code on Github</a></li>
-        <li><a href="https://github.com/konekta/where-is-when-is/issues">Submit issues</a></li>
-      </ul>
+      <p>
+        <a href="https://github.com/konekta/where-is-when-is">Code on Github</a>
+        &nbsp;&nbsp;
+        <a href="https://github.com/konekta/where-is-when-is/issues">Submit issues</a>
+      </p>
     </div>
   </footer>
 
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.7.2.min.js "></script>
   <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js "></script>
   <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+
+  {% include 'autocomplete_light/static.html' %}
+
   {% render_block "js" %}
 </body>
 </html>

@@ -17,7 +17,7 @@ def location_detail(request, slug):
     location = get_object_or_404(Location, slug=slug)
 
     this_map = InfoMap([(location.point, location.map_html)],
-                   {'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
+                   {#'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
                     'map_div_style': {'width': '570px', 'height': '400px'}})
 
 
@@ -27,7 +27,7 @@ def location_detail(request, slug):
     country = areas[0]
     area = areas[areas.count()-1]
     tweet_url = 'http://%s%s' % (Site.objects.get_current().domain, location.get_absolute_url())
-    tweet_text = 'See %s in %s, %s. Please validate it!' % (location.name, area, country)
+    tweet_text = 'See %s in %s, %s. Please validate this %s location' % (location.name, area, country, location.type.name)
 
     return render(request, 'world/location_detail.html', {
         'location': location,
@@ -62,7 +62,7 @@ def details(request, path):
         layers.append(InfoLayer([(area.geom_simplify, area.name)]))
 
     this_map = Map(layers,
-                   {'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
+                   {#'layers': ['google.streets', 'google.satellite', 'google.hybrid'],
                     'map_div_style': {'width': '570px', 'height': '400px'}})
 
     return render(request, 'world/details.html', {
@@ -71,6 +71,19 @@ def details(request, path):
         'subareas': subareas,
         'locations': locations,
     })
+
+
+def global_autocomplete(request, template_name='global_autocomplete.html'):
+    q = request.GET.get('q', '')
+    context = {'q': q}
+
+    queries = {}
+    queries['areas'] = Area.objects.filter(name__icontains=q)[:10]
+    print queries
+
+    context.update(queries)
+
+    return render(request, template_name, context)
 
 
 class LocationAddView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):

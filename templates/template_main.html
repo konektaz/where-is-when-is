@@ -1,28 +1,30 @@
 {% extends 'base.html' %}
 {% load cms_tags sekizai_tags %}
 
-{% block content %}
-<div class="row">
-  <div class="span12">
-    {% placeholder content %}
+{% block wholepage %}
+
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+
+    {% placeholder teaser %}
+
   </div>
-</div>
+</header>
 
 
-{% addtoblock "css" %}
-<style type="text/css" media="screen">
-  .bs-docs-sidebar { min-height: 1px; }
-  .bs-docs-sidenav.affix {
-    top: 40px;
-  }
-  .bs-docs-sidenav.affix-bottom {
-    position: absolute;
-    top: auto;
-    bottom: 270px;
-  }
-  .page-header h1 { padding-top:50px; }
-</style>
-{% endaddtoblock %}
+  <div class="container">
+
+    <!-- Docs nav
+    ================================================== -->
+    <div class="row">
+      <div class="span3 bs-docs-sidebar">
+        {% placeholder sidebar %}
+      </div>
+      <div class="span9">
+        {% placeholder content %}
+      </div>
+    </div>
+  </div>
 
 {% addtoblock "js" %}
 <script type="text/javascript">
@@ -31,7 +33,7 @@ $(function(){
   // side bar
   $('.bs-docs-sidenav').affix({
     offset: {
-      top: function () { return $window.width() <= 980 ? 290 : 210 }
+      top: function () { return $window.width() <= 980 ? 290 : 140 }
       ,bottom: 270
     }
   });
