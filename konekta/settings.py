@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.github',
 
     'cms.plugins.text',
     'cmsplugin_filer_file',
