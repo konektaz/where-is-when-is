@@ -7,6 +7,8 @@ from apiv1.resources import AreaResource, LocationResource
 import autocomplete_light
 from cms.views import details
 
+from core.views import ProfileView
+
 
 autocomplete_light.autodiscover()
 admin.autodiscover()
@@ -24,7 +26,8 @@ urlpatterns = patterns(
     url(r'^$', details, {'slug': ''}, name='pages-root'),
     url(r'^feedback/$', 'core.views.feedback', name='feedback'),
     url(r'^mobile/', include('mobile.urls')),
-    (r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/profile/$', ProfileView.as_view(), name='account_profile'),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^api/', include(v1_api.urls)),
 
     url(r'', include('world.urls')),
