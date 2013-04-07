@@ -53,35 +53,49 @@ The query XML file contains Overpass XML query.
                                     name = tag.attrib.get('v')
 
                             point = Point(float(node.attrib.get('lon')), float(node.attrib.get('lat')))
-                            location = Location(name=name, type=location_type, point=point)
 
-                            # some manual mapping
-                            for tag in node:
+                            if node.attrib.get('id') is not None:
+                                locations = Location.objects.filter(external_id__exact=node.attrib.get('id'))
+                                if locations:
+                                    location = locations[0]
+                                else:
+                                    location = Location(name=name, type=location_type, point=point, external_id = node.attrib.get('id'))
 
-                                if tag.attrib.get('k') == 'phone':
-                                    location.phone = tag.attrib.get('v')
 
-                                if tag.attrib.get('k') == 'addr:city':
-                                    location.locality = tag.attrib.get('v')
+                                # some manual mapping
+                                for tag in node:
 
-                                if tag.attrib.get('k') == 'addr:street':
-                                    location.street_address = tag.attrib.get('v')
+                                    if tag.attrib.get('k') == 'phone':
+                                        if location.phone is None:
+                                            location.phone = tag.attrib.get('v')
 
-                                if tag.attrib.get('k') == 'addr:postcode':
-                                    location.postal_code = tag.attrib.get('v')
+                                    if tag.attrib.get('k') == 'addr:city':
+                                        if location.locality is None:
+                                            location.locality = tag.attrib.get('v')
 
-                                if tag.attrib.get('k') == 'email':
-                                    location.email = tag.attrib.get('v')
+                                    if tag.attrib.get('k') == 'addr:street':
+                                        if location.street_address is None:
+                                            location.street_address = tag.attrib.get('v')
 
-                                if tag.attrib.get('k') == 'addr:website':
-                                    location.url = tag.attrib.get('v')
+                                    if tag.attrib.get('k') == 'addr:postcode':
+                                        if location.postal_code is None:
+                                            location.postal_code = tag.attrib.get('v')
 
-                                if tag.attrib.get('k') == 'address':
-                                    location.street_address = tag.attrib.get('v')
+                                    if tag.attrib.get('k') == 'email':
+                                        if location.email is None:
+                                            location.email = tag.attrib.get('v')
 
-                            try:
-                                location.save()
-                            except DatabaseError as e:
-                                print "Cannot add record", e
+                                    if tag.attrib.get('k') == 'addr:website':
+                                        if location.url is None:
+                                            location.url = tag.attrib.get('v')
+
+                                    if tag.attrib.get('k') == 'address':
+                                        if location.street_address is None:
+                                            location.street_address = tag.attrib.get('v')
+
+                                try:
+                                    location.save()
+                                except DatabaseError as e:
+                                    print "Cannot add record", e
 
 
