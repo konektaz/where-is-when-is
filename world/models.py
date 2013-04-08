@@ -80,7 +80,7 @@ class LocationType(models.Model):
 
 
 class Location(models.Model):
-    external_id = models.CharField(max_length=255, blank=True, null=True)
+    external_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', max_length=255, unique=True)
     type = models.ForeignKey(LocationType)
