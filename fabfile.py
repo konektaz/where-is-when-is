@@ -2,10 +2,19 @@
 
 from fabric.api import require, run, local, env, put, cd
 from fabric.contrib.files import exists
-
+from fabric.api import *
+from fabric.contrib.files import contains, exists, append, sed
+import fabtools
+from fabtools.vagrant import vagrant
 
 env.use_ssh_config = True
 
+#------------------------- VAGRANT SPECIFIC TASKS --------------------
+@task
+def rsync_local():
+    with cd('/home/web/'):
+        sudo('rsync -va /vagrant/ konektaz/ --exclude \'venv\' '
+             '--exclude \'*.pyc\' --exclude \'.git\'')
 
 # ------------------------- SITE DEFINITIONS -------------------------
 
