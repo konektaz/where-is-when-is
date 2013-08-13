@@ -32,7 +32,7 @@
 
   Alias /[SITENAME] [SITEBASE]/[SITENAME]
 
-  WSGIScriptAlias / [SITEBASE]/[SITENAME]/django_project/core/wsgi.py
+  WSGIScriptAlias / [SITEBASE]/[SITENAME]/konekta/wsgi.py
 
   <Directory "[SITEBASE]/[SITENAME]/apache">
     Order deny,allow
@@ -42,14 +42,14 @@
   WSGIDaemonProcess [SITENAME] user=[SITEUSER] group=[SITEUSER] processes=2 threads=10 python-path=[SITEBASE]/[SITENAME]/venv/lib/python2.7/site-packages:[SITEBASE]/[SITENAME]/django_project
   WSGIProcessGroup [SITENAME]
 
-  Alias /media/ "[SITEBASE]/[SITENAME]/django_project/media/"
-  <Directory [SITEBASE]/[SITENAME]/django_project/media>
+  Alias /media/ "[SITEBASE]/[SITENAME]/media/"
+  <Directory [SITEBASE]/[SITENAME]/media>
     Order deny,allow
     Allow from all
   </Directory>
 
-  Alias /static/ "[SITEBASE]/[SITENAME]/django_project/static/"
-  <Directory [SITEBASE]/[SITENAME]/django_project/static>
+  Alias /static/ "[SITEBASE]/[SITENAME]/static/"
+  <Directory [SITEBASE]/[SITENAME]/static>
     Order deny,allow
     Allow from all
   </Directory>
