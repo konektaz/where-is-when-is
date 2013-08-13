@@ -30,27 +30,21 @@ def _all():
     # Key is hostname as it resolves by running hostname directly on the server
     # value is desired web site url to publish the repo as.
 
-    repo_site_names = {'spur': '%s.localhost' % PROJECT_NAME}
     with hide('output'):
         env.user = run('whoami')
         env.hostname = run('hostname')
-        if env.hostname not in repo_site_names:
-            print 'Error: %s not in: \n%s' % (env.hostname, repo_site_names)
-            exit()
-        else:
-            # sitename for apache venv
-            env.repo_site_name = repo_site_names[env.hostname]
-            # where to check the repo out to
-            env.webdir = '/home/web'
-            # repo uri
-            env.git_url = 'https://github.com/timlinux/where-is-when-is.git'
-            # checkout name for repo
-            env.repo_alias = PROJECT_NAME
-            # user wsgi should run as (will be created if needed)
-            env.wsgi_user = 'vagrant'
-            # Deploy dir - e.g. /home/web/foo
-            env.code_path = os.path.join(env.webdir, env.repo_alias)
-            show_environment()
+        env.repo_site_name = 'konektaz'
+        # where to check the repo out to
+        env.webdir = '/home/web'
+        # repo uri
+        env.git_url = 'https://github.com/timlinux/where-is-when-is.git'
+        # checkout name for repo
+        env.repo_alias = PROJECT_NAME
+        # user wsgi should run as (will be created if needed)
+        env.wsgi_user = 'vagrant'
+        # Deploy dir - e.g. /home/web/foo
+        env.code_path = os.path.join(env.webdir, env.repo_alias)
+        show_environment()
 
 ###############################################################################
 # Next section contains helper methods tasks
@@ -68,9 +62,9 @@ def rsync_local():
 @task
 def collect_static():
     _all()
-    with cd('%s/django_project' % env.code_path):
+    with cd('%s' % env.code_path):
         # run('venv/bin/python manage.py collectstatic --noinput')
-        wsgi_file = 'core/wsgi.py'
+        wsgi_file = 'konekta/wsgi.py'
         sudo('find . -iname \'*.pyc\' -exec rm {} \;')
         run('touch %s' % wsgi_file)
 
@@ -184,7 +178,7 @@ def setup_website():
     fabtools.require.service.restarted('apache2')
 
     #Setup a writable media dir for apache
-    media_path = '%s/django_project/core/media' % env.code_path
+    media_path = '%s/media' % env.code_path
     if not exists(media_path):
         sudo('mkdir %s' % media_path)
         sudo('chown %s.%s %s' % (env.wsgi_user, env.wsgi_user, env.code_path))
@@ -219,7 +213,7 @@ def setup_venv():
             run('%s install --no-download GDAL' % pip_path)
 
     with cd(env.code_path):
-        run('venv/bin/pip install -r REQUIREMENTS.txt')
+        run('venv/bin/pip install -r requirements.txt')
 
 
 @task
@@ -270,7 +264,7 @@ def update_git_checkout(branch='master'):
             run('git checkout master')
         run('git pull')
         #run('./runcollectstatic.sh')
-        wsgi_file = 'django_project/core/wsgi.py'
+        wsgi_file = 'konekta/wsgi.py'
         run('touch %s' % wsgi_file)
 
 ###############################################################################
@@ -295,20 +289,6 @@ def restore_dump(file_name=None, migrations=False):
         file_name=file_name,
         user=env.wsgi_user,
         password=env.wsgi_user)
-    if migrations:
-        run_migrations()
-
-
-@task
-def run_migrations():
-    _all()
-    grant_sql = ('GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO %s;'
-                 % env.wsgi_user)
-    # assumption is env.repo_alias is also database name
-    run('psql %s -c "%s"' % (env.repo_alias, grant_sql))
-    with cd('/home/web/catalogue/django_project/'):
-        run('../venv/bin/python manage.py migratev3 '
-            '--settings=core.settings.project')
 
 
 @task
