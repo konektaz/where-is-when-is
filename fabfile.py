@@ -154,7 +154,7 @@ def setup_website():
         'GRANT ALL ON ALL SEQUENCES IN schema public to %s;' % env.wsgi_user)
     run('psql %s -c "%s"' % (env.repo_alias, grant_sql))
     pwd_sql = 'ALTER USER timlinux WITH PASSWORD \'timlinux\';'
-    pwd_sql = 'ALTER USER %s WITH PASSWORD \'%s\';' % (env.wsgi_user, % env.wsgi_user)
+    pwd_sql = 'ALTER USER %s WITH PASSWORD \'%s\';' % (env.wsgi_user, env.wsgi_user)
     run('psql %s -c "%s"' % (env.repo_alias, pwd_sql))
     #with cd(env.code_path):
     # run the script to create the sites view
