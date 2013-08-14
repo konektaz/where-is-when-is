@@ -154,6 +154,7 @@ def setup_website():
         'GRANT ALL ON ALL SEQUENCES IN schema public to %s;' % env.wsgi_user)
     run('psql %s -c "%s"' % (env.repo_alias, grant_sql))
     pwd_sql = 'ALTER USER timlinux WITH PASSWORD \'timlinux\';'
+    pwd_sql = 'ALTER USER %s WITH PASSWORD \'%s\';' % (env.wsgi_user, % env.wsgi_user)
     run('psql %s -c "%s"' % (env.repo_alias, pwd_sql))
     #with cd(env.code_path):
     # run the script to create the sites view
@@ -327,10 +328,10 @@ def deploy(branch='master'):
     fabtools.require.deb.package('build-essential')
     fabtools.require.deb.package('libgdal1-dev')
     fabtools.require.deb.package('gdal-bin')
-
     update_git_checkout(branch)
     setup_venv()
     setup_website()
+    collect_static()
 
 
 @task
