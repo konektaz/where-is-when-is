@@ -12,16 +12,22 @@ class Command(BaseCommand):
         """
         A function to fetch address data for objects in the database.
         Further info: http://wiki.openstreetmap.org/wiki/Nominatim#Reverse_Geocoding_.2F_Address_lookup
+        args: locID = id of specific Location object you wish to update.
         """
 
         if args:
             for locID in args:
-                location = Location.objects.get(id=locID)
-                updateAddress(location)
+                try:
+                    location = Location.objects.get(id=locID)
+                    action = updateAddress(location)
+                    print action
+                except location.DoesNotExist:
+                    print u'Location with id=%s does not exist' % locID
         else:
             locations = Location.objects.all()
             for location in locations:
-                updateAddress(location)
+                action = updateAddress(location)
+                print action
 
 
 def updateAddress(location):
@@ -45,21 +51,23 @@ def updateAddress(location):
     # Delete locations with no name and no lon/lat
     if no_name and no_point:
         location.delete()
-        print 'A location was deleted as it had no ' \
+        return 'A location was deleted as it had no ' \
               'name and no lon/lat'
 
-    # If the location has an external_id (osm_id), we can use that to query OSM
-    if not location.point:
-        print u'Location %s has no lon/lat' % ident
     if location.external_id:
         osm_id = location.external_id
         url = '%s&osm_id=%s&osm_type=N' % (base_url, osm_id)
 
     # If no external_id, fallback to lon/lat
-    else:
+    elif location.point:
         lat = str(location.point.y)
         lon = str(location.point.x)
         url = '%s&lat=%s&lon=%s' % (base_url, lat, lon)
+
+    # If no external_id and no lon/lat delete it
+    else:
+        location.delete()
+        return 'Location %s has no external_id and no lon/lat' % ident
 
     # Send the request
     request = urllib2.Request(url, '', headers)
@@ -128,4 +136,4 @@ def updateAddress(location):
 
         location.save()
 
-        print u'Updated details for %s' % ident
+        return u'Updated details for %s' % ident

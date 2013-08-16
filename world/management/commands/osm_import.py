@@ -42,6 +42,8 @@ The query XML file contains Overpass XML query.
                 items = ET.fromstring(response.read())
 
                 for node in items:
+                    # TODO: I assume that this is hard-coded for a reason? We
+                    # should be able to retrieve the location type from OSM? George
                     location_type = LocationType.objects.get(name="Hospital")
 
                     with transaction.commit_on_success():
@@ -57,7 +59,8 @@ The query XML file contains Overpass XML query.
                             if node.attrib.get('id') is not None:
                                 locations = Location.objects.filter(external_id__exact=node.attrib.get('id'))
                                 if locations:
-                                    location = locations[0]
+                                    print u'Location with external_id %s already exists' % node.attrib.get('id')
+                                    continue
                                 else:
                                     location = Location(name=name, type=location_type, point=point, external_id = node.attrib.get('id'))
 
@@ -96,8 +99,8 @@ The query XML file contains Overpass XML query.
 
                                 try:
                                     location.save()
-                                    print u'Location Saved: %s' % location.name
+                                    print u'Location Saved: %s' % str(location.name)
                                 except DatabaseError as e:
-                                    print u'Failed to add record for: %s', e % location.name
+                                    print u'Failed to add record for: %s', e % str(location.name)
 
 
