@@ -61,41 +61,43 @@ The query XML file contains Overpass XML query.
                                 else:
                                     location = Location(name=name, type=location_type, point=point, external_id = node.attrib.get('id'))
 
-
-                                # some manual mapping
-                                for tag in node:
-
-                                    if tag.attrib.get('k') == 'phone':
-                                        if location.phone is None:
-                                            location.phone = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:city':
-                                        if location.locality is None:
-                                            location.locality = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:street':
-                                        if location.street_address is None:
-                                            location.street_address = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:postcode':
-                                        if location.postal_code is None:
-                                            location.postal_code = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'email':
-                                        if location.email is None:
-                                            location.email = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:website':
-                                        if location.url is None:
-                                            location.url = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'address':
-                                        if location.street_address is None:
-                                            location.street_address = tag.attrib.get('v')
+                                ### overpass does not return address data, so
+                                ### this step is not necessary
+                                # # some manual mapping
+                                # for tag in node:
+                                #
+                                #     if tag.attrib.get('k') == 'phone':
+                                #         if location.phone is None:
+                                #             location.phone = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:city':
+                                #         if location.locality is None:
+                                #             location.locality = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:street':
+                                #         if location.street_address is None:
+                                #             location.street_address = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:postcode':
+                                #         if location.postal_code is None:
+                                #             location.postal_code = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'email':
+                                #         if location.email is None:
+                                #             location.email = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:website':
+                                #         if location.url is None:
+                                #             location.url = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'address':
+                                #         if location.street_address is None:
+                                #             location.street_address = tag.attrib.get('v')
 
                                 try:
                                     location.save()
+                                    print u'Location Saved: %s' % location.name
                                 except DatabaseError as e:
-                                    print "Cannot add record", e
+                                    print u'Failed to add record for: %s', e % location.name
 
 
