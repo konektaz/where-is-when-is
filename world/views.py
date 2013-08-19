@@ -10,7 +10,7 @@ from cms.views import details as cms_details
 from olwidget.widgets import InfoLayer, Map, InfoMap
 
 from forms import LocationAddForm
-from models import Location, Area, Geom
+from models import Location, Area, Geom, LocationType
 
 
 def location_detail(request, slug):
@@ -48,6 +48,7 @@ def details(request, path):
 
     subareas = area.get_children()
     locations = Location.objects.filter(point__within=area.geom.geom)
+    location_types = LocationType.objects.all()
 
     layers = []
 
@@ -70,6 +71,7 @@ def details(request, path):
         'map': this_map,
         'subareas': subareas,
         'locations': locations,
+        'location_types': location_types
     })
 
 
