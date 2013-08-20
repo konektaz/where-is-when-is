@@ -37,12 +37,10 @@
       {% if locations %}
         <div class="well" style="padding: 8px 0; height:400px;overflow: scroll;">
           <ul class="nav nav-list">
-
             <li class="nav-header">In this area</li>
-            {% for type in location_types %}
-              <li>{{ type.name }}: {{ type.get_location_count }}</li>
-            {% endfor %}
-
+              {% for type in location_types %}
+                <li>{{ type.name }}: {{ type.id__count }}</li>
+              {% endfor %}
             <li class="nav-header">Locations</li>
             {% for l in locations %}
               <li><a href="{% url 'world_location_detail' l.slug %}">{{ l.name }}, {{ l.locality }}</a></li>

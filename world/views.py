@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import http
+from django.db.models import Count
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import CreateView, View
 from django.shortcuts import render, get_object_or_404
@@ -48,7 +49,8 @@ def details(request, path):
 
     subareas = area.get_children()
     locations = Location.objects.filter(point__within=area.geom.geom)
-    location_types = LocationType.objects.all()
+    location_types = LocationType.objects.filter(
+        location__point__within=area.geom.geom).annotate(id__count=Count('location'))
 
     layers = []
 
