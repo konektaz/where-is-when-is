@@ -51,23 +51,28 @@ def updateAddress(location):
     # Delete locations with no name and no lon/lat
     if no_name and no_point:
         location.delete()
-        return 'A location was deleted as it had no ' \
-              'name and no lon/lat'
+        return u'DELETED: A location was deleted as it had no ' \
+              u'name and no lon/lat'
 
     if location.external_id:
         osm_id = location.external_id
-        url = '%s&osm_id=%s&osm_type=N' % (base_url, osm_id)
+        url = u'%s&osm_id=%s&osm_type=N' % (base_url, osm_id)
 
     # If no external_id, fallback to lon/lat
     elif location.point:
         lat = str(location.point.y)
         lon = str(location.point.x)
-        url = '%s&lat=%s&lon=%s' % (base_url, lat, lon)
+        url = u'%s&lat=%s&lon=%s' % (base_url, lat, lon)
 
     # If no external_id and no lon/lat delete it
     else:
         location.delete()
-        return 'Location %s has no external_id and no lon/lat' % ident
+        return u'DELETED: Location %s has no external_id and no lon/lat' % ident
+
+    # Check if location already has address
+    if location.street_address and location.name and location.country:
+        if location.locality or location.region:
+            return u'Already has address details'
 
     # Send the request
     request = urllib2.Request(url, '', headers)
@@ -77,7 +82,10 @@ def updateAddress(location):
     if (response.getcode() == 200):
         comeback = response.read()
         jdata = json.loads(comeback)
-        address = jdata['address']
+        try:
+            address = jdata['address']
+        except:
+            return u'No address key present'
         try:
             house = address['house']
         except:
