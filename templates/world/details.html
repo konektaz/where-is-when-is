@@ -43,7 +43,11 @@
               {% endfor %}
             <li class="nav-header">Locations</li>
             {% for l in locations %}
-              <li><a href="{% url 'world_location_detail' l.slug %}">{{ l.name }}, {{ l.locality }}</a></li>
+              <li>
+                <a href="{% url 'world_location_detail' l.slug %}">
+                  {{ l.name }}, {% if l.locality %}{{ l.locality }}{% elif l.region %}{{ l.region }}{% endif %}
+                </a>
+              </li>
             {% endfor %}
           </ul>
         </div>
