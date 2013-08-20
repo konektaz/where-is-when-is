@@ -74,6 +74,7 @@ class Geom(models.Model):
 
 class LocationType(models.Model):
     name = models.CharField(max_length=255)
+    objects = models.GeoManager()
 
     def __unicode__(self):
         return self.name
