@@ -49,9 +49,11 @@ body {
 }
 
 a.brand {
-    background: url(../images/konekta_logo_white32.png) no-repeat;
+    background: url(../images/new-konektaz.png) no-repeat;
     display: block;
     width: 110px;
+    position: relative;
+    top: 4px;
 }
 
 a.brand span {
