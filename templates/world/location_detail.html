@@ -56,14 +56,22 @@
               <div class="country-name">{{ location.country }}</div>
             {% endif %}
           </div>
+          {% if location.tags.all %}
+            <p>Tags:
+              {% for tag in location.tags.all %}
+                {{ tag }} {% if not forloop.last %}| {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
         {% endif %}
       </div>
 
       {% if display_validate_it %}
-        <a href="{% url 'world_location_validate' location.slug %}">Validate it!</a>
+        <a href="{% url 'world_location_validate' location.slug %}"
+            class="btn btn-success">Validate it!</a>
       {% endif %}
-
-      <h3>Created by</h3>
+      <hr>
+      <h4>Created by:</h4>
       <div style="overflow:auto;text-align:center;">
       {% if location.created_by %}
         {% with location.created_by.socialaccount_set.all.0 as account %}
@@ -78,8 +86,8 @@
         </div>
       {% endif %}
       </div>
-
-      <h3>Validated by</h3>
+      <hr>
+      <h4>Validated by:</h4>
       <div style="overflow:auto;">
       {% for user in location.validated_by.all %}
         {% with user.socialaccount_set.all.0 as account %}
