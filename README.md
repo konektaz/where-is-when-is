@@ -7,64 +7,73 @@ Geolocate health services and make them available through a mobile site.
 Installation
 ------------
 
-First, clone the repository like this:
+You can quickly and easily setup a working Konektaz environment using Vagrant, VirtualBox and Fabric.
+This repository contains the necessary Vagrantfile and fabfile, so you need to do is install
+the necessary software.
+
+#### Download and install VirtualBox:
+You may wish to use a different provider. See the [Vagrant Docs](http://docs.vagrantup.com/v2/providers/index.html)
+for more information.
+
+[VirtualBox Downloads](https://www.virtualbox.org/wiki/Downloads)
+
+
+#### Download and install Vagrant:
+[Download Vagrant](http://downloads.vagrantup.com)
+
+
+#### Clone the repository and cd into the repo:
 
 ```sh
 git clone https://github.com/konekta/where-is-when-is.git whereiswhenis && \
 cd whereiswhenis
 ```
 
-Create a new virtual environment
+#### Create and activate new virtual environment
 
 ```sh
-virtualenv env
-. env/bin/activate
+virtualenv venv
+venv/bin/activate
 ```
 
-Then install requirements
+#### Install fabgis
+Will also install Fabric and fabtools
 
 ```sh
-pip install -r requirements.txt
+pip install fabgis
 ```
 
-Make sure you have postgis installed. Use version 1.5.3. Version 2 doesn't like
-Django. Once you install it, make sure you enable it on your database.
-
-Copy the sample local_settings file for your local machine like this:
+#### Start your Vagrant box:
+Our Vagrant file will download an Ubuntu 12.04LTS box to your system (unless it
+already exists). This download will take quite some time! Once you have downloaded
+the box, you will not have to download it again (for any future Vagrant projects which
+require Ubuntu 12.04LTS)
 
 ```sh
-cp konekta/local_settings.py.example konekta/local_settings.py
+vagrant up
 ```
 
-Edit your local_settings.py and add your database login, password, host and
-port if needed.
+After the download is complete, you will be asked which network interface you wish
+Vagrant to bridge to; select the one which connects your host machine to the internet.
 
-Now set up the datebase:
+
+#### Deploy Konektaz to Vagrant
+At this point, you must have installed VirtualBox and Vagrant on your host machine. You
+must also have setup a virtualenvironment (called "venv") in the root dir of your Konektaz
+clone. In that venv, you must have installed fabgis (and fabric and fabtools). Your
+Vagrant instance must be running.
+
+Now:
 
 ```sh
-python manage.py syncdb
-python manage.py migrate
+fab vagrant deploy
 ```
 
-To load data use shell:
+This will update the Ubuntu installation, download and install all the necessary system
+requirements, clone the Konektaz repo, setup the databse, setup Apache and install
+all venv requirements.
 
-```sh
-python manage.py shell
-```
 
-And then in that shell:
-
-```python
-from world import load
-load.run()
-# Ctrl+D to exit
-```
-
-And run your app:
-
-```sh
-python manage.py runserver 0.0.0.0:8000
-```
-
-Deployment
-
+#### Connect!
+You should now be able to connect to your local Konektaz instance. The simplest way is to
+connect via apache by calling the Vagrant machine's LAN IP in your browser.

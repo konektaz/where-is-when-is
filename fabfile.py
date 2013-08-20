@@ -63,7 +63,7 @@ def rsync_local():
 def collect_static():
     _all()
     with cd('%s' % env.code_path):
-        # run('venv/bin/python manage.py collectstatic --noinput')
+        run('venv/bin/python manage.py collectstatic --noinput')
         wsgi_file = 'konekta/wsgi.py'
         sudo('find . -iname \'*.pyc\' -exec rm {} \;')
         run('touch %s' % wsgi_file)
