@@ -42,7 +42,6 @@ The query XML file contains Overpass XML query.
                 items = ET.fromstring(response.read())
 
                 for node in items:
-                    location_type = LocationType.objects.get(name="Hospital")
 
                     with transaction.commit_on_success():
 
@@ -51,51 +50,86 @@ The query XML file contains Overpass XML query.
                             for tag in node:
                                 if tag.attrib.get('k') == 'name':
                                     name = tag.attrib.get('v')
+                                if tag.attrib.get('k') == 'amenity':
+                                # TODO: I assume that this is hard-coded for a reason? We
+                                # should be able to retrieve the location type from OSM? George
+                                    location_type_str = tag.attrib.get('v')
+                                    location_type = LocationType.objects.get(name='Unknown')
+                                    if location_type_str == 'hospital':
+                                        location_type = LocationType.objects.get(name='Hospital')
+                                    elif location_type_str == 'clinic':
+                                        location_type = LocationType.objects.get(
+                                            name='Health clinic')
+                                    elif location_type_str == 'community_centre':
+                                        location_type = LocationType.objects.get(
+                                            name='Community center')
+                                    elif location_type_str == 'social_centre':
+                                        location_type = LocationType.objects.get(
+                                            name='Social center')
+                                    elif location_type_str == 'pharmacy':
+                                        location_type = LocationType.objects.get(
+                                            name='Pharmacy')
+                                    elif location_type_str == 'social_facility':
+                                        location_type = LocationType.objects.get(
+                                            name='Social facility')
+                                    elif location_type_str == 'nursing_home':
+                                        location_type = LocationType.objects.get(
+                                            name='Nursing home')
+                                    elif location_type_str == 'doctors':
+                                        location_type = LocationType.objects.get(
+                                            name='Doctors')
+                                    elif location_type_str == 'dentist':
+                                        location_type = LocationType.objects.get(
+                                            name='Dentist')
 
                             point = Point(float(node.attrib.get('lon')), float(node.attrib.get('lat')))
 
                             if node.attrib.get('id') is not None:
                                 locations = Location.objects.filter(external_id__exact=node.attrib.get('id'))
+                                # If locations returns any objects, then the node already exists, so we can skip it.
                                 if locations:
-                                    location = locations[0]
+                                    print u'Location with external_id %s already exists' % node.attrib.get('id')
+                                    continue
                                 else:
                                     location = Location(name=name, type=location_type, point=point, external_id = node.attrib.get('id'))
 
-
-                                # some manual mapping
-                                for tag in node:
-
-                                    if tag.attrib.get('k') == 'phone':
-                                        if location.phone is None:
-                                            location.phone = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:city':
-                                        if location.locality is None:
-                                            location.locality = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:street':
-                                        if location.street_address is None:
-                                            location.street_address = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:postcode':
-                                        if location.postal_code is None:
-                                            location.postal_code = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'email':
-                                        if location.email is None:
-                                            location.email = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'addr:website':
-                                        if location.url is None:
-                                            location.url = tag.attrib.get('v')
-
-                                    if tag.attrib.get('k') == 'address':
-                                        if location.street_address is None:
-                                            location.street_address = tag.attrib.get('v')
+                                ### overpass does not return address data, so
+                                ### this step is not necessary
+                                # # some manual mapping
+                                # for tag in node:
+                                #
+                                #     if tag.attrib.get('k') == 'phone':
+                                #         if location.phone is None:
+                                #             location.phone = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:city':
+                                #         if location.locality is None:
+                                #             location.locality = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:street':
+                                #         if location.street_address is None:
+                                #             location.street_address = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:postcode':
+                                #         if location.postal_code is None:
+                                #             location.postal_code = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'email':
+                                #         if location.email is None:
+                                #             location.email = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'addr:website':
+                                #         if location.url is None:
+                                #             location.url = tag.attrib.get('v')
+                                #
+                                #     if tag.attrib.get('k') == 'address':
+                                #         if location.street_address is None:
+                                #             location.street_address = tag.attrib.get('v')
 
                                 try:
                                     location.save()
+                                    print u'Location Saved: %s' % str(location.external_id)
                                 except DatabaseError as e:
-                                    print "Cannot add record", e
+                                    print u'Failed to add record for: %s', e % str(location.external_id)
 
 

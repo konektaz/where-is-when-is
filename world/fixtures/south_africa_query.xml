@@ -1,6 +1,6 @@
 <osm-script>
     <query type="node">
-        <has-kv k="amenity" regv="hospital|clinic"/>
+        <has-kv k="amenity" regv="hospital|clinic|community_centre|social_centre|pharmacy|social_facility|nursing_home|doctors|dentist"/>
         <bbox-query e="31.46" n="-22.26" s="-35.17" w="14.67"/>
     </query>
     <print/>
