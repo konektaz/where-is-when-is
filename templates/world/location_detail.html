@@ -15,23 +15,48 @@
   <div class="row">
     <div class="span3">
       <h1>{{ location.name }}</h1>
-
-      <p>{{ location.description }}</p>
+      {% if location.description %}
+        <p>{{ location.description }}</p>
+      {% endif %}
 
       <div class="vcard">
         <div class="fn org">{{ location.name }}</div>
-        <div class="tel"><span class="type">work</span>: <a href="tel:{{ location.phone }}"><span class="value">{{ location.phone }}</span></a></div>
-        <div class="url">{{ location.url }}</div>
-        <div class="email">{{ location.email }}</div>
-        <div class="twitter">{{ location.twitter }}</div>
+        {% if location.phone %}
+          <div class="tel">
+            <span class="type">work</span>: <a href="tel:{{ location.phone }}"><span class="value">{{ location.phone }}</span></a>
+          </div>
+        {% endif %}
+        {% if location.url %}
+          <div class="url">{{ location.url }}</div>
+        {% endif %}
+        {% if location.email %}
+          <div class="email">{{ location.email }}</div>
+        {% endif %}
+        {% if location.twitter %}
+          <div class="twitter">{{ location.twitter }}</div>
+        {% endif %}
 
-        <div class="adr">
-          <div class="street-address">{{ location.street_address }}</div>
-          <div class="locality">{{ location.locality }}</div>
-          <div class="region">{{ location.region }}</div>
-          <div class="postal-code">{{ location.postal_code }}</div>
-          <div class="country-name">{{ location.country }}</div>
-        </div>
+        {% if not location.street_address and not location.locality and not location.region and not location.country %}
+          <p>No address data.</p>
+        {% else %}
+          <div class="adr">
+            {% if location.street_address %}
+              <div class="street-address">{{ location.street_address }}</div>
+            {% endif %}
+            {% if location.locality %}
+              <div class="locality">{{ location.locality }}</div>
+            {% endif %}
+            {% if location.region %}
+              <div class="region">{{ location.region }}</div>
+            {% endif %}
+            {% if location.postal_code %}
+              <div class="postal-code">{{ location.postal_code }}</div>
+            {% endif %}
+            {% if location.country %}
+              <div class="country-name">{{ location.country }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
 
       {% if display_validate_it %}

@@ -78,6 +78,11 @@ class LocationType(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_location_count(self):
+        locations = Location.objects.filter(type=self)
+        count = len(locations)
+        return count
+
 
 class Location(models.Model):
     external_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
