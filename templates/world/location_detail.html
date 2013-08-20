@@ -64,10 +64,19 @@
       {% endif %}
 
       <h3>Created by</h3>
-      <div style="overflow:auto;">
-      {% with location.created_by.socialaccount_set.all.0 as account %}
-        <div class="avatar"><a href="{{ account.get_profile_url }}" target="_blank"><img src="{{ account.get_avatar_url }}" title="{{ account }}"></a></div>
-      {% endwith %}
+      <div style="overflow:auto;text-align:center;">
+      {% if location.created_by %}
+        {% with location.created_by.socialaccount_set.all.0 as account %}
+          <div class="avatar"><a href="{{ account.get_profile_url }}" target="_blank"><img src="{{ account.get_avatar_url }}" title="{{ account }}"></a></div>
+        {% endwith %}
+      {% else %}
+        <div class="avatar">
+          <a href="http://openstreetmap.org" target="_blank">
+            <img src="http://www.openstreetmap.org/assets/osm_logo.png" title="OpenStreetMap Logo" />
+          </a>
+          <p class="muted">Data from OpenStreetMap</p>
+        </div>
+      {% endif %}
       </div>
 
       <h3>Validated by</h3>
