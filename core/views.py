@@ -32,3 +32,6 @@ def feedback(request):
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'account/profile.html'
 
+
+def robots(request):
+    return render('robots.txt')
