@@ -34,4 +34,4 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 
 def robots(request):
-    return render('robots.txt')
+    return render(request, 'robots.txt')
