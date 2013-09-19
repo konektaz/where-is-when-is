@@ -208,7 +208,7 @@ LOGGING = {
     }
 }
 
-OL_API = 'http://openlayers.org/dev/OpenLayers.js'
+OL_API = 'http://openlayers.org/api/OpenLayers.js'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
